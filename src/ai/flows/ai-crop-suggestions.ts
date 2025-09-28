@@ -19,8 +19,17 @@ export type SuggestCropsInput = z.infer<typeof SuggestCropsInputSchema>;
 
 const SuggestCropsOutputSchema = z.object({
   crops: z
-    .array(z.string())
+    .array(
+      z.object({
+        name: z.string().describe('The name of the suggested crop.'),
+        growthTime: z.string().describe('The best time or season for this crop to grow.'),
+        imageDescription: z.string().describe('A simple two-word description of the crop for a placeholder image search.'),
+      })
+    )
     .describe('A list of suitable crops for the given soil conditions.'),
+  bestCrop: z
+    .string()
+    .describe('The name of the single best crop from the suggestions.'),
   yieldEstimate: z
     .string()
     .describe('An estimate of the expected yield for the suggested crops.'),
@@ -43,12 +52,14 @@ const prompt = ai.definePrompt({
   output: {schema: SuggestCropsOutputSchema},
   prompt: `You are an AI assistant that suggests suitable crops based on soil data.
 
-  Suggest crops, provide a yield estimate, and a sustainability score (0-100) based on the following soil data:
+  Suggest a few crops, provide a yield estimate, a sustainability score (0-100), and identify the single best crop from the list based on the following soil data:
+  For each crop, provide its name, the best time for it to grow, and a simple two-word description for a placeholder image.
 
   pH: {{ph}}
   Moisture: {{moisture}}
 
-  Format the output as a JSON object with 'crops', 'yieldEstimate', and 'sustainabilityScore' fields.
+  Format the output as a JSON object. The 'crops' field should be an array of objects, each with 'name', 'growthTime', and 'imageDescription'.
+  Also include 'bestCrop', 'yieldEstimate', and 'sustainabilityScore' fields.
   The sustainability score should be between 0 and 100, taking into account factors such as water usage, pesticide use, and overall environmental impact. Higher scores represent more sustainable options. Be concise.
   `,
 });

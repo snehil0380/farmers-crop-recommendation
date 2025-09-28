@@ -1,19 +1,17 @@
 'use client';
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Slider } from "@/components/ui/slider";
 import { getCropSuggestions } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import type { SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
-import { Loader2, BarChart, Sprout, ShieldCheck } from "lucide-react";
+import { Loader2, BarChart, Sprout, ShieldCheck, Star, CalendarDays } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { SoilAnalysis } from "./soil-analysis";
+import { Badge } from "@/components/ui/badge";
 
 const formSchema = z.object({
   ph: z.coerce.number().min(0).max(14, "pH must be between 0 and 14."),
@@ -26,17 +24,6 @@ export function CropSuggestion() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<SuggestCropsOutput | null>(null);
   const { toast } = useToast();
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      ph: 7.0,
-      moisture: 50,
-    },
-  });
-  
-  const phValue = form.watch('ph');
-  const moistureValue = form.watch('moisture');
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
@@ -59,66 +46,7 @@ export function CropSuggestion() {
 
   return (
     <div className="space-y-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Soil Analysis</CardTitle>
-          <CardDescription>Enter your soil's pH and moisture levels to get personalized crop suggestions.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="ph"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex justify-between items-center">
-                      <FormLabel>Soil pH</FormLabel>
-                      <span className="text-sm font-medium text-primary">{phValue.toFixed(1)}</span>
-                    </div>
-                    <FormControl>
-                      <Slider
-                        min={0}
-                        max={14}
-                        step={0.1}
-                        value={[field.value]}
-                        onValueChange={(value) => field.onChange(value[0])}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="moisture"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex justify-between items-center">
-                      <FormLabel>Moisture (%)</FormLabel>
-                       <span className="text-sm font-medium text-primary">{moistureValue}%</span>
-                    </div>
-                    <FormControl>
-                      <Slider
-                        min={0}
-                        max={100}
-                        step={1}
-                        value={[field.value]}
-                        onValueChange={(value) => field.onChange(value[0])}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" suppressHydrationWarning>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Get Suggestions
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+      <SoilAnalysis onSubmit={onSubmit} isLoading={isLoading} />
 
       {isLoading && (
         <Card>
@@ -133,26 +61,13 @@ export function CropSuggestion() {
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
             <CardTitle>Our Recommendations</CardTitle>
-            <CardDescription>Based on your soil data, here's what we suggest.</CardDescription>
+            <CardDescription>Based on your soil data, here are our suggestions.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Suggested Crops
-                  </CardTitle>
-                  <Sprout className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{result.crops.join(', ')}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Estimated Yield
-                  </CardTitle>
+                  <CardTitle className="text-sm font-medium">Estimated Yield</CardTitle>
                   <BarChart className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -169,6 +84,42 @@ export function CropSuggestion() {
                   <Progress value={result.sustainabilityScore} className="mt-2" />
                 </CardContent>
               </Card>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> Suggested Crops</h3>
+              <div className="grid grid-cols-1 gap-4">
+                {result.crops.map((crop, index) => (
+                  <Card key={index} className={crop.name === result.bestCrop ? 'border-primary shadow-lg' : ''}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center">
+                          {crop.name}
+                          {crop.name === result.bestCrop && (
+                            <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
+                              <Star className="mr-1 h-3 w-3" /> Best Choice
+                            </Badge>
+                          )}
+                        </CardTitle>
+                         <div className="flex items-center text-sm text-muted-foreground">
+                          <CalendarDays className="mr-2 h-4 w-4" />
+                          <span>{crop.growthTime}</span>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <Image
+                        src={`https://picsum.photos/seed/${crop.name.toLowerCase().replace(' ', '')}/600/400`}
+                        alt={`Image of ${crop.name}`}
+                        width={600}
+                        height={400}
+                        className="rounded-lg object-cover aspect-[3/2]"
+                        data-ai-hint={crop.imageDescription}
+                      />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>

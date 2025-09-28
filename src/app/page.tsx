@@ -14,7 +14,7 @@ export default function Home() {
             <TabsList className="grid w-full grid-cols-2 bg-primary/10 rounded-lg">
               <TabsTrigger value="suggestion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Leaf className="mr-2 h-4 w-4" />
-                Crop Suggestions
+                Crop Advisor
               </TabsTrigger>
               <TabsTrigger value="detection" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Stethoscope className="mr-2 h-4 w-4" />
