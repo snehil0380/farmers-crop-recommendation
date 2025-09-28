@@ -8,3 +8,9 @@ export type ImagePlaceholder = {
 };
 
 export const PlaceHolderImages: ImagePlaceholder[] = data.placeholderImages;
+
+export const findImage = (cropName: string): ImagePlaceholder | undefined => {
+  return PlaceHolderImages.find(
+    (img) => img.id.toLowerCase() === cropName.toLowerCase()
+  );
+};

@@ -12,6 +12,7 @@ import { Loader2, BarChart, Sprout, ShieldCheck, Star, CalendarDays } from "luci
 import { Progress } from "@/components/ui/progress";
 import { SoilAnalysis } from "./soil-analysis";
 import { Badge } from "@/components/ui/badge";
+import { findImage } from "@/lib/placeholder-images";
 
 const formSchema = z.object({
   ph: z.coerce.number().min(0).max(14, "pH must be between 0 and 14."),
@@ -89,36 +90,44 @@ export function CropSuggestion() {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> Suggested Crops</h3>
               <div className="grid grid-cols-1 gap-4">
-                {result.crops.map((crop, index) => (
-                  <Card key={index} className={crop.name === result.bestCrop ? 'border-primary shadow-lg' : ''}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center">
-                          {crop.name}
-                          {crop.name === result.bestCrop && (
-                            <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
-                              <Star className="mr-1 h-3 w-3" /> Best Choice
-                            </Badge>
-                          )}
-                        </CardTitle>
-                         <div className="flex items-center text-sm text-muted-foreground">
-                          <CalendarDays className="mr-2 h-4 w-4" />
-                          <span>{crop.growthTime}</span>
+                {result.crops.map((crop, index) => {
+                  const placeholderImage = findImage(crop.name);
+                  const imageUrl =
+                    placeholderImage?.imageUrl ||
+                    `https://picsum.photos/seed/${crop.name
+                      .toLowerCase()
+                      .replace(' ', '')}/600/400`;
+                  return (
+                    <Card key={index} className={crop.name === result.bestCrop ? 'border-primary shadow-lg' : ''}>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="flex items-center">
+                            {crop.name}
+                            {crop.name === result.bestCrop && (
+                              <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
+                                <Star className="mr-1 h-3 w-3" /> Best Choice
+                              </Badge>
+                            )}
+                          </CardTitle>
+                           <div className="flex items-center text-sm text-muted-foreground">
+                            <CalendarDays className="mr-2 h-4 w-4" />
+                            <span>{crop.growthTime}</span>
+                          </div>
                         </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <Image
-                        src={`https://picsum.photos/seed/${crop.name.toLowerCase().replace(' ', '')}${Math.random()}/600/400`}
-                        alt={`Image of ${crop.name}`}
-                        width={600}
-                        height={400}
-                        className="rounded-lg object-cover aspect-[3/2]"
-                        data-ai-hint={crop.imageDescription}
-                      />
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardHeader>
+                      <CardContent>
+                        <Image
+                          src={imageUrl}
+                          alt={`Image of ${crop.name}`}
+                          width={600}
+                          height={400}
+                          className="rounded-lg object-cover aspect-[3/2]"
+                          data-ai-hint={crop.imageDescription}
+                        />
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </div>
           </CardContent>

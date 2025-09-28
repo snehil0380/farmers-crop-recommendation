@@ -15,6 +15,7 @@ import { getCropAnalysis } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { CropAnalysisOutput } from '@/ai/flows/crop-analysis';
 import { Loader2, CalendarDays, Droplets, Mountain, DollarSign } from 'lucide-react';
+import { findImage } from '@/lib/placeholder-images';
 
 export function CropAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
@@ -81,13 +82,19 @@ export function CropAnalysis() {
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-              {result.crops.map((crop, index) => (
+              {result.crops.map((crop, index) => {
+                const placeholderImage = findImage(crop.name);
+                const imageUrl =
+                  placeholderImage?.imageUrl ||
+                  `https://picsum.photos/seed/${crop.name
+                    .toLowerCase()
+                    .replace(' ', '')}/600/400`;
+                
+                return (
                 <Card key={index} className="flex flex-col md:flex-row">
                   <div className="md:w-1/3">
                     <Image
-                      src={`https://picsum.photos/seed/${crop.name
-                        .toLowerCase()
-                        .replace(' ', '')}${Math.random()}/600/400`}
+                      src={imageUrl}
                       alt={`Image of ${crop.name}`}
                       width={600}
                       height={400}
@@ -128,7 +135,8 @@ export function CropAnalysis() {
                     </CardContent>
                   </div>
                 </Card>
-              ))}
+              );
+            })}
             </div>
           </CardContent>
         </Card>
