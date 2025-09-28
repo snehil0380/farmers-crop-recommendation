@@ -7,6 +7,7 @@ import { translateText, TranslateTextInput, TranslateTextOutput } from "@/ai/flo
 import { translateTextsBatch, TranslateTextsBatchInput, TranslateTextsBatchOutput } from "@/ai/flows/translate-texts-batch";
 import { getCropRotationSuggestions as getCropRotationSuggestionsFlow, CropRotationSuggestionOutput } from "@/ai/flows/crop-rotation-suggestion";
 import { speechToText, SpeechToTextInput, SpeechToTextOutput } from "@/ai/flows/speech-to-text";
+import { suggestSimilarCrops, SuggestSimilarCropsInput, SuggestSimilarCropsOutput } from "@/ai/flows/suggest-similar-crops";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -133,5 +134,25 @@ export async function getSpeechToText(data: SpeechToTextInput): Promise<{data: S
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to process audio. Please try again." };
+  }
+}
+
+const suggestSimilarCropsSchema = z.object({
+  query: z.string().min(1, "Query cannot be empty."),
+});
+
+export async function getSimilarCrops(data: SuggestSimilarCropsInput): Promise<{data: SuggestSimilarCropsOutput | null; error: string | null}> {
+  const validatedFields = suggestSimilarCropsSchema.safeParse(data);
+
+  if (!validatedFields.success) {
+    return { data: null, error: "Invalid input." };
+  }
+
+  try {
+    const result = await suggestSimilarCrops(validatedFields.data);
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to get similar crops. Please try again." };
   }
 }

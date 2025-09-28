@@ -1,13 +1,18 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { getCropRotationSuggestions } from '@/app/actions';
+import Image from 'next/image';
+import { getCropRotationSuggestions, getSimilarCrops } from '@/app/actions';
 import type { CropRotationSuggestionOutput } from '@/ai/flows/crop-rotation-suggestion';
+import type { SuggestSimilarCropsOutput } from '@/ai/flows/suggest-similar-crops';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/use-translation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, ArrowRight, CheckCircle, Leaf, Zap, Droplets, Wheat, Carrot, Bean } from 'lucide-react';
+import { Loader2, ArrowRight, CheckCircle, Leaf, Zap, Wheat, Carrot, Bean, Search, Lightbulb } from 'lucide-react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { findImage } from '@/lib/placeholder-images';
 
 const iconMap: Record<string, React.ElementType> = {
   Corn: Wheat, // Using Wheat for Corn as it's visually similar in this context
@@ -15,6 +20,112 @@ const iconMap: Record<string, React.ElementType> = {
   Carrot,
   Wheat, // For Cereals
 };
+
+function SimilarCropsSection() {
+  const { t } = useTranslation();
+  const { toast } = useToast();
+  const [query, setQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<SuggestSimilarCropsOutput | null>(null);
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) {
+      toast({
+        title: t('Empty Search'),
+        description: t('Please enter a crop name to find similar ones.'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    setIsLoading(true);
+    setResult(null);
+
+    const { data, error } = await getSimilarCrops({ query });
+
+    if (error) {
+      toast({
+        title: t('Error'),
+        description: error,
+        variant: 'destructive',
+      });
+    } else {
+      setResult(data);
+    }
+    setIsLoading(false);
+  };
+  
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('Find Similar Crops')}</CardTitle>
+          <CardDescription>{t('Enter a crop name to find alternatives with similar characteristics.')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <Input 
+              placeholder={t('e.g., Tomatoes')} 
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              disabled={isLoading}
+            />
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+              <span className="sr-only">{t('Search')}</span>
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+      
+      {isLoading && (
+         <Card>
+            <CardContent className="p-6 flex flex-col items-center justify-center space-y-4 min-h-[150px]">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="text-muted-foreground">{t('Finding similar crops...')}</p>
+            </CardContent>
+          </Card>
+      )}
+
+      {result && (
+        <Card className="bg-primary/5">
+          <CardHeader>
+            <CardTitle>{t('Suggested Alternatives')}</CardTitle>
+            <CardDescription>{t('Here are some crops similar to')} "{query}".</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-2">
+            {result.crops.map((crop, index) => {
+              const placeholderImage = findImage(crop.name);
+              const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
+              return (
+                <Card key={index} className="overflow-hidden">
+                   <Image
+                      src={imageUrl}
+                      alt={`Image of ${t(crop.name)}`}
+                      width={600}
+                      height={400}
+                      className="object-cover w-full h-32"
+                      data-ai-hint={crop.imageDescription}
+                    />
+                  <CardHeader>
+                    <CardTitle className="text-lg">{t(crop.name)}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                     <p className="text-sm text-muted-foreground flex items-start gap-2">
+                        <Lightbulb className="h-4 w-4 mt-1 text-primary shrink-0" />
+                        <span>{t(crop.reason)}</span>
+                     </p>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
 
 export function CropRotation() {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,13 +185,14 @@ export function CropRotation() {
           </CardDescription>
         </CardHeader>
       </Card>
+      
+      <SimilarCropsSection />
 
       {result && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {sortedRotation?.map((item, index) => {
               const Icon = iconMap[item.icon] || Leaf;
-              const nextItem = sortedRotation[(index + 1) % sortedRotation.length];
 
               return (
                 <div key={item.step} className="flex flex-col items-center">

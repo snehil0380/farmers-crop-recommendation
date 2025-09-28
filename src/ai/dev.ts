@@ -8,4 +8,5 @@ import '@/ai/flows/translate-text.ts';
 import '@/ai/flows/translate-texts-batch.ts';
 import '@/ai/flows/crop-rotation-suggestion.ts';
 import '@/ai/flows/speech-to-text.ts';
+import '@/ai/flows/suggest-similar-crops.ts';
 import '@/services/market-data-service.ts';

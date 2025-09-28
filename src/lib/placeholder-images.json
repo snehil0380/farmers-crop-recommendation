@@ -27,7 +27,7 @@
     {
       "id": "potatoes",
       "description": "Freshly harvested potatoes.",
-      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3RhdG98ZW58MHx8fHwxNzU5MDQzODQwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3RhdG98ZW58MHx8fHwxNzU5MDQzODQwfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "Earthy Potatoes"
     },
     {
@@ -57,7 +57,7 @@
     {
       "id": "sugarcane",
       "description": "A field of tall sugarcane stalks.",
-      "imageUrl": "https://images.unsplash.com/photo-1679543321530-4378c81af100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhciUyMGNhbmUlMjBpbWFnZXN8ZW58MHx8fHwxNzU5MDQ0MDI2fDA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1679543321530-4378c81af100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhciUyMGNhbmUlMjBpbWFnZXN8ZW58MHx8fHwxNzU5MDQ0MDI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "Tall stalks"
     },
     {
@@ -75,8 +75,20 @@
     {
       "id": "soybeans",
       "description": "Soybean pods on a plant.",
-      "imageUrl": "https://images.unsplash.com/photo-1613728913084-090a0d106c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxiZWFuc3xlbnwwfHx8fDE3NTkwNDM2NTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1613728913084-090a0d106c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxiZWFuc3xlbnwwfHx8fDE3NTkwNDM2NTh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "Soybean pods"
+    },
+    {
+      "id": "peppers",
+      "description": "A collection of colorful bell peppers.",
+      "imageUrl": "https://images.unsplash.com/photo-1599298285987-10e0f3198305?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXBwZXJzfGVufDB8fHx8MTc1OTIwMjA2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Colorful peppers"
+    },
+    {
+      "id": "eggplant",
+      "description": "A shiny, dark purple eggplant.",
+      "imageUrl": "https://images.unsplash.com/photo-1583688143644-890f41927c37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlZ2dwbGFudHxlbnwwfHx8fDE3NTkyMDIxMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Purple eggplant"
     }
   ]
 }
