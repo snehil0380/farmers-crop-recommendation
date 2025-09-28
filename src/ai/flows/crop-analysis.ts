@@ -54,7 +54,7 @@ const prompt = ai.definePrompt({
   tools: [getMarketPriceTool],
   prompt: `You are an AI assistant that provides information about specific crops.
 
-  Provide a detailed analysis for the following crops: Wheat, Corn, Rice, Sugarcane, Chickpea, Lentil, Soybeans.
+  Provide a detailed analysis for the following crops: Wheat, Corn, Rice, Sugarcane, Chickpea, Lentil, Soybeans, Red Chillies.
 
   For each crop, you MUST provide the following details:
   - Name: The crop's name as provided in this prompt.
