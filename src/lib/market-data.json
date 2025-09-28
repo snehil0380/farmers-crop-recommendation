@@ -2,7 +2,7 @@
   "prices": {
     "wheat": "₹2,400 / quintal",
     "corn": "₹2,200 / quintal",
-    "soyabeans": "₹4,800 / quintal",
+    "red_chillies": "₹200 / kg",
     "rice": "₹2,500 / quintal",
     "cotton": "₹7,000 / quintal",
     "potatoes": "₹1,500 / quintal",
@@ -12,6 +12,7 @@
     "oranges": "₹60 / kg",
     "sugarcane": "₹3,500 / tonne",
     "chickpea": "₹6,000 / quintal",
-    "lentil": "₹7,000 / quintal"
+    "lentil": "₹7,000 / quintal",
+    "soybeans": "₹4,800 / quintal"
   }
 }

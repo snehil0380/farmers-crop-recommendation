@@ -13,10 +13,10 @@
       "imageHint": "Golden corn"
     },
     {
-      "id": "red chillies",
+      "id": "red_chillies",
       "description": "A vibrant collection of fresh red chillies.",
       "imageUrl": "https://images.unsplash.com/photo-1596119414935-5de81441482e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBjaGlsbGllc3xlbnwwfHx8fDE3NTkwNDQwODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "Green pods"
+      "imageHint": "Red chillies"
     },
     {
       "id": "rice",
@@ -45,32 +45,38 @@
     {
       "id": "maize",
       "description": "A field of maize.",
-      "imageUrl": "https://images.unsplash.com/photo-1651667343153-6dc318e27e41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYWl6ZXxlbnwwfHx8fDE3NTkwNDE0NzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1651667343153-6dc318e27e41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYWl6ZXxlbnwwfHx8fDE3NTkwNDE0NzN8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "Corn field"
     },
     {
       "id": "sorghum",
       "description": "A field of sorghum.",
-      "imageUrl": "https://images.unsplash.com/photo-1704627647734-61e38adedc4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzb3JnaHVtfGVufDB8fHx8MTc1OTA0MjIyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1704627647734-61e38adedc4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzb3JnaHVtfGVufDB8fHx8MTc1OTA0MjIyNHww&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "Sorghum crop"
     },
     {
       "id": "sugarcane",
       "description": "A field of tall sugarcane stalks.",
-      "imageUrl": "https://images.unsplash.com/photo-1679543321530-4378c81af100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhciUyMGNhbmUlMjBpbWFnZXN8ZW58MHx8fHwxNzU5MDQ0MDI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1679543321530-4378c81af100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhciUyMGNhbmUlMjBpbWFnZXN8ZW58MHx8fHwxNzU5MDQ0MDI2fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "Tall stalks"
     },
     {
       "id": "chickpea",
       "description": "A close-up of chickpea pods on a plant.",
-      "imageUrl": "https://images.unsplash.com/photo-1620923235619-a89c0a6b1e0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGlja3BlYXxlbnwwfHx8fDE3E5MjM0MjY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1620923235619-a89c0a6b1e0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGlja3BlYXxlbnwwfHx8fDE3E5MjM0MjY0fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "Chickpea plant"
     },
     {
       "id": "lentil",
       "description": "A field of lentil plants.",
-      "imageUrl": "https://images.unsplash.com/photo-1588921203264-9f7cf2250275?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZW50aWx8ZW58MHx8fHwxNzE5MjM0Mjg5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1588921203264-9f7cf2250275?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZW50aWx8ZW58MHx8fHwxNzE5MjM0Mjg5fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "Lentil field"
+    },
+    {
+      "id": "soybeans",
+      "description": "Soybean pods on a plant.",
+      "imageUrl": "https://images.unsplash.com/photo-1551893138-203b5a4a9b51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3liZWFufGVufDB8fHx8MTc1OTExOTU5N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Soybean plant"
     }
   ]
 }
