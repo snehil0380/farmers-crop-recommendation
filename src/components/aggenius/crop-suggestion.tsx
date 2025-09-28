@@ -8,8 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getCropSuggestions } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import type { SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
-import { Loader2, BarChart, Sprout, ShieldCheck, Star, CalendarDays, CheckCircle } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { Loader2, Sprout, CheckCircle, Info } from "lucide-react";
 import { SoilAnalysis } from "./soil-analysis";
 import { Badge } from "@/components/ui/badge";
 import { findImage } from "@/lib/placeholder-images";
@@ -72,30 +71,17 @@ export function CropSuggestion() {
                     <CardTitle className="text-base font-semibold">{t('Recommended Crop')}: {t(result.bestCrop)}</CardTitle>
                 </div>
             </CardHeader>
-          <CardContent className="p-6 grid gap-4">
-            <p><span className="font-semibold">{t('Expected Yield')}:</span> {t(result.yieldEstimate)}</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {result.crops.map((crop, index) => {
-                if (crop.name !== result.bestCrop) return null;
+          <CardContent className="p-6 grid gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+              <div className="space-y-4">
+                 {result.crops.map((crop) => {
+                  if (crop.name !== result.bestCrop) return null;
 
-                const placeholderImage = findImage(crop.name);
-                const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
-                
-                return (
-                  <Card key={index} className="col-span-1 md:col-span-2">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center">
-                          {t(crop.name)}
-                        </CardTitle>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <CalendarDays className="mr-2 h-4 w-4" />
-                          <span>{t(crop.growthTime)}</span>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
+                  const placeholderImage = findImage(crop.name);
+                  const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
+                  
+                  return (
+                    <div key={crop.name}>
                       <Image
                         src={imageUrl}
                         alt={`Image of ${crop.name}`}
@@ -104,10 +90,26 @@ export function CropSuggestion() {
                         className="rounded-lg object-cover aspect-[3/2]"
                         data-ai-hint={crop.imageDescription}
                       />
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
+                        <span>{t(crop.growthTime)}</span>
+                        <span><span className="font-semibold">{t('Yield')}:</span> {t(result.yieldEstimate)}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="space-y-4">
+                <Card>
+                  <CardHeader className="flex flex-row items-center space-x-2 pb-2">
+                    <Info className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-lg">{t('Reasoning')}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{t(result.reasoning)}</p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
             
             <div>

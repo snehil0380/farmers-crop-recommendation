@@ -37,6 +37,9 @@ const SuggestCropsOutputSchema = z.object({
   yieldEstimate: z
     .string()
     .describe('An estimate of the expected yield for the suggested crops (e.g., "18 quintals/acre").'),
+  reasoning: z
+    .string()
+    .describe('A detailed explanation of why the best crop was chosen based on the input data.'),
 });
 export type SuggestCropsOutput = z.infer<typeof SuggestCropsOutputSchema>;
 
@@ -50,8 +53,10 @@ const prompt = ai.definePrompt({
   output: {schema: SuggestCropsOutputSchema},
   prompt: `You are an AI assistant that suggests suitable crops based on soil and climate data.
 
-  Suggest a few crops, provide a yield estimate, and identify the single best crop from the list based on the following data:
+  Based on the following data, suggest a few crops, provide a yield estimate, and identify the single best crop.
   For each crop, provide its name, the best time for it to grow, and a simple two-word description for a placeholder image.
+  
+  Crucially, provide a detailed 'reasoning' for why the best crop is the top choice, explaining how the given soil and climate data support its growth.
 
   Nitrogen: {{nitrogen}}
   Phosphorus: {{phosphorus}}
@@ -60,9 +65,8 @@ const prompt = ai.definePrompt({
   Temperature: {{temperature}}°C
   Rainfall: {{rainfall}}mm
 
-  Format the output as a JSON object. The 'crops' field should be an array of objects, each with 'name', 'growthTime', and 'imageDescription'.
-  Also include 'bestCrop' and 'yieldEstimate' fields.
-  Be concise.
+  Format the output as a JSON object with 'crops', 'bestCrop', 'yieldEstimate', and 'reasoning' fields.
+  Be concise but informative.
   `,
 });
 
