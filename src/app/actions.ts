@@ -117,6 +117,7 @@ export async function getCropRotationSuggestions(): Promise<{data: CropRotationS
 
 const speechToTextSchema = z.object({
   audioDataUri: z.string().startsWith("data:audio/"),
+  language: z.string(),
 });
 
 export async function getSpeechToText(data: SpeechToTextInput): Promise<{data: SpeechToTextOutput | null; error: string | null}> {

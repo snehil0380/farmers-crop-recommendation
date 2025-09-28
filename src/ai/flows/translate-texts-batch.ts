@@ -31,7 +31,7 @@ const prompt = ai.definePrompt({
   name: 'translateTextsBatchPrompt',
   input: {schema: TranslateTextsBatchInputSchema},
   output: {schema: TranslateTextsBatchOutputSchema},
-  prompt: `You are an expert translator. Translate the following list of English texts to {{targetLanguage}}.
+  prompt: `You are an expert translator. Translate the following list of English texts to the language with code '{{targetLanguage}}'.
 Provide a JSON object where keys are the original English texts and values are their translations.
 
 Texts to translate:

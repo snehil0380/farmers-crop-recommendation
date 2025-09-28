@@ -15,8 +15,9 @@ const SpeechToTextInputSchema = z.object({
   audioDataUri: z
     .string()
     .describe(
-      "A recording, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      "A recording, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
+    language: z.string().describe('The language of the audio recording (e.g., "en", "hi").'),
 });
 export type SpeechToTextInput = z.infer<typeof SpeechToTextInputSchema>;
 
@@ -34,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'speechToTextPrompt',
   input: {schema: SpeechToTextInputSchema},
   output: {schema: SpeechToTextOutputSchema},
-  prompt: `Transcribe the following audio recording.
+  prompt: `Transcribe the following audio recording. The language is {{language}}.
   {{media url=audioDataUri}}
   `,
   model: 'gemini-2.5-flash',

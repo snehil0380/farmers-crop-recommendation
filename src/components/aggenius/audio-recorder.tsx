@@ -52,7 +52,7 @@ export function AudioRecorder() {
         const reader = new FileReader();
         reader.onloadend = async () => {
           const audioDataUri = reader.result as string;
-          const { data, error } = await getSpeechToText({ audioDataUri });
+          const { data, error } = await getSpeechToText({ audioDataUri, language });
 
           if (error || !data) {
             toast({ title: t('Error'), description: t('Could not process audio.'), variant: 'destructive' });
@@ -61,8 +61,12 @@ export function AudioRecorder() {
           }
 
           setTranscript(data.text);
-          const translated = await translateText(data.text);
-          setTranslatedText(translated);
+          if (data.text) {
+            const translated = await translateText(data.text);
+            setTranslatedText(translated);
+          } else {
+            setTranslatedText('');
+          }
           setIsProcessing(false);
         };
         reader.readAsDataURL(audioBlob);
@@ -125,9 +129,12 @@ export function AudioRecorder() {
             >
               {isRecording ? <MicOff className="h-8 w-8" /> : <Mic className="h-8 w-8" />}
             </Button>
-            <p className="text-sm text-muted-foreground">
-              {isRecording ? t('Recording...') : (isProcessing ? t('Processing...') : t('Tap to speak'))}
-            </p>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                {isRecording ? t('Recording...') : (isProcessing ? t('Processing...') : t('Tap to speak'))}
+              </p>
+               {!isRecording && !isProcessing && <p className="text-xs text-muted-foreground">{t('Language')}: {currentLanguageLabel}</p>}
+            </div>
           </div>
 
           {(isProcessing || transcript) && (
