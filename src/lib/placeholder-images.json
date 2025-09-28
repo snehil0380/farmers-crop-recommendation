@@ -13,10 +13,10 @@
       "imageHint": "Golden corn"
     },
     {
-      "id": "soyabeans",
-      "description": "A field of soybean plants.",
-      "imageUrl": "https://images.unsplash.com/photo-1551886363-2a8f8d227521?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3liZWFuJTIwZmllbGR8ZW58MHx8fHwxNzU5MDk3OTU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "Soyabean field"
+      "id": "red chillies",
+      "description": "A vibrant collection of fresh red chillies.",
+      "imageUrl": "https://images.unsplash.com/photo-1596119414935-5de81441482e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBjaGlsbGllc3xlbnwwfHx8fDE3NTkwNDQwODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Green pods"
     },
     {
       "id": "rice",
@@ -57,8 +57,8 @@
     {
       "id": "sugarcane",
       "description": "A field of tall sugarcane stalks.",
-      "imageUrl": "https://images.unsplash.com/photo-1620056372023-094119873f0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhcmNhbmV8ZW58MHx8fHwxNzE5MjM0MjMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "Sugarcane field"
+      "imageUrl": "https://images.unsplash.com/photo-1679543321530-4378c81af100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhciUyMGNhbmUlMjBpbWFnZXN8ZW58MHx8fHwxNzU5MDQ0MDI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Tall stalks"
     },
     {
       "id": "chickpea",
