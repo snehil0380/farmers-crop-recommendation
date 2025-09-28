@@ -16,11 +16,13 @@ import { useToast } from '@/hooks/use-toast';
 import type { CropAnalysisOutput } from '@/ai/flows/crop-analysis';
 import { Loader2, CalendarDays, Droplets, Mountain, DollarSign } from 'lucide-react';
 import { findImage } from '@/lib/placeholder-images';
+import { useTranslation } from '@/hooks/use-translation';
 
 export function CropAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CropAnalysisOutput | null>(null);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   async function handleGetAnalysis() {
     setIsLoading(true);
@@ -45,10 +47,9 @@ export function CropAnalysis() {
     <div className="space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Crop Production Analysis</CardTitle>
+          <CardTitle>{t('Crop Production Analysis')}</CardTitle>
           <CardDescription>
-            Click the button to see a list of common crops, their production
-            months, and market data.
+            {t('Click the button to see a list of common crops, their production months, and market data.')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -58,7 +59,7 @@ export function CropAnalysis() {
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Get Crop Analysis
+            {t('Get Crop Analysis')}
           </Button>
         </CardContent>
       </Card>
@@ -67,7 +68,7 @@ export function CropAnalysis() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center space-y-4 min-h-[200px]">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">Fetching crop analysis...</p>
+            <p className="text-muted-foreground">{t('Fetching crop analysis...')}</p>
           </CardContent>
         </Card>
       )}
@@ -75,9 +76,9 @@ export function CropAnalysis() {
       {result && (
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
-            <CardTitle>Crop Data</CardTitle>
+            <CardTitle>{t('Crop Data')}</CardTitle>
             <CardDescription>
-              A list of common crops with their production and market details.
+              {t('A list of common crops with their production and market details.')}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
@@ -102,32 +103,32 @@ export function CropAnalysis() {
                   </div>
                   <div className="md:w-2/3 flex flex-col">
                     <CardHeader>
-                      <CardTitle>{crop.name}</CardTitle>
+                      <CardTitle>{t(crop.name)}</CardTitle>
                        <div className="flex items-center text-sm text-muted-foreground pt-1">
                         <CalendarDays className="mr-2 h-4 w-4" />
-                        <span>{crop.productionMonths}</span>
+                        <span>{t(crop.productionMonths)}</span>
                       </div>
                     </CardHeader>
                     <CardContent className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm flex-grow">
                       <div className="flex items-center">
                         <Droplets className="mr-2 h-4 w-4 text-primary" />
                         <div>
-                          <p className="font-semibold">Water Needs</p>
-                          <p className="text-muted-foreground">{crop.waterNeeds}</p>
+                          <p className="font-semibold">{t('Water Needs')}</p>
+                          <p className="text-muted-foreground">{t(crop.waterNeeds)}</p>
                         </div>
                       </div>
                        <div className="flex items-center">
                         <Mountain className="mr-2 h-4 w-4 text-primary" />
                          <div>
-                          <p className="font-semibold">Soil</p>
-                          <p className="text-muted-foreground">{crop.soilPreference}</p>
+                          <p className="font-semibold">{t('Soil')}</p>
+                          <p className="text-muted-foreground">{t(crop.soilPreference)}</p>
                         </div>
                       </div>
                       <div className="flex items-center col-span-2">
                         <DollarSign className="mr-2 h-4 w-4 text-primary" />
                         <div>
-                          <p className="font-semibold">Market Price</p>
-                          <p className="text-muted-foreground">{crop.marketPrice || 'N/A'}</p>
+                          <p className="font-semibold">{t('Market Price')}</p>
+                          <p className="text-muted-foreground">{crop.marketPrice || t('N/A')}</p>
                         </div>
                       </div>
                     </CardContent>

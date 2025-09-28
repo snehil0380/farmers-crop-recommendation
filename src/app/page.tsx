@@ -1,11 +1,16 @@
+'use client';
+
 import { Header } from "@/components/aggenius/header";
 import { CropSuggestion } from "@/components/aggenius/crop-suggestion";
 import { DiseaseDetection } from "@/components/aggenius/disease-detection";
 import { CropAnalysis } from "@/components/aggenius/crop-analysis";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Leaf, Stethoscope, BarChart } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Header />
@@ -15,15 +20,15 @@ export default function Home() {
             <TabsList className="grid w-full grid-cols-3 bg-primary/10 rounded-lg">
               <TabsTrigger value="suggestion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Leaf className="mr-2 h-4 w-4" />
-                Crop Advisor
+                {t('Crop Advisor')}
               </TabsTrigger>
               <TabsTrigger value="detection" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Stethoscope className="mr-2 h-4 w-4" />
-                Disease Detection
+                {t('Disease Detection')}
               </TabsTrigger>
               <TabsTrigger value="analysis" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <BarChart className="mr-2 h-4 w-4" />
-                Crop Analysis
+                {t('Crop Analysis')}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="suggestion" className="mt-6">

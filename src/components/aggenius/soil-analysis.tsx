@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 const formSchema = z.object({
   ph: z.coerce.number().min(0).max(14, "pH must be between 0 and 14."),
@@ -30,6 +31,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
       moisture: 50,
     },
   });
+  const { t } = useTranslation();
   
   const phValue = form.watch('ph');
   const moistureValue = form.watch('moisture');
@@ -37,8 +39,8 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Soil Analysis</CardTitle>
-        <CardDescription>Enter your soil's pH and moisture levels to get personalized crop suggestions.</CardDescription>
+        <CardTitle>{t('Soil Analysis')}</CardTitle>
+        <CardDescription>{t("Enter your soil's pH and moisture levels to get personalized crop suggestions.")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -49,7 +51,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel>Soil pH</FormLabel>
+                    <FormLabel>{t('Soil pH')}</FormLabel>
                     <span className="text-sm font-medium text-primary">{phValue.toFixed(1)}</span>
                   </div>
                   <FormControl>
@@ -70,7 +72,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel>Moisture (%)</FormLabel>
+                    <FormLabel>{t('Moisture (%)')}</FormLabel>
                      <span className="text-sm font-medium text-primary">{moistureValue}%</span>
                   </div>
                   <FormControl>
@@ -87,7 +89,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
             />
             <Button suppressHydrationWarning type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Get Suggestions
+              {t('Get Suggestions')}
             </Button>
           </form>
         </Form>

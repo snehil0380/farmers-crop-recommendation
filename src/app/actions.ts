@@ -3,6 +3,7 @@
 import { suggestCrops, SuggestCropsInput, SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
 import { imageBasedDiseaseDetection, ImageBasedDiseaseDetectionInput, ImageBasedDiseaseDetectionOutput } from "@/ai/flows/image-based-disease-detection";
 import { getCropAnalysis as getCropAnalysisFlow, CropAnalysisOutput } from "@/ai/flows/crop-analysis";
+import { translateText, TranslateTextInput, TranslateTextOutput } from "@/ai/flows/translate-text";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -54,5 +55,25 @@ export async function getCropAnalysis(): Promise<{data: CropAnalysisOutput | nul
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to get crop analysis. Please try again." };
+  }
+}
+
+const translateTextSchema = z.object({
+  text: z.string(),
+  targetLanguage: z.string(),
+});
+
+export async function getTranslation(data: { text: string, targetLanguage: string }): Promise<{data: TranslateTextOutput | null; error: string | null}> {
+  const validatedFields = translateTextSchema.safeParse(data);
+  if (!validatedFields.success) {
+    return { data: null, error: "Invalid input for translation." };
+  }
+
+  try {
+    const result = await translateText(validatedFields.data);
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to translate text. Please try again." };
   }
 }

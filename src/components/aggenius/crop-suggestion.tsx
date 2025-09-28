@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { SoilAnalysis } from "./soil-analysis";
 import { Badge } from "@/components/ui/badge";
 import { findImage } from "@/lib/placeholder-images";
+import { useTranslation } from "@/hooks/use-translation";
 
 const formSchema = z.object({
   ph: z.coerce.number().min(0).max(14, "pH must be between 0 and 14."),
@@ -25,6 +26,7 @@ export function CropSuggestion() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<SuggestCropsOutput | null>(null);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
@@ -34,8 +36,8 @@ export function CropSuggestion() {
 
     if (error) {
       toast({
-        title: "Error",
-        description: error,
+        title: t("Error"),
+        description: t(error),
         variant: "destructive",
       });
     } else {
@@ -53,7 +55,7 @@ export function CropSuggestion() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center space-y-4 min-h-[200px]">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">Analyzing your soil...</p>
+            <p className="text-muted-foreground">{t('Analyzing your soil...')}</p>
           </CardContent>
         </Card>
       )}
@@ -61,23 +63,23 @@ export function CropSuggestion() {
       {result && (
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
-            <CardTitle>Our Recommendations</CardTitle>
-            <CardDescription>Based on your soil data, here are our suggestions.</CardDescription>
+            <CardTitle>{t('Our Recommendations')}</CardTitle>
+            <CardDescription>{t('Based on your soil data, here are our suggestions.')}</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Estimated Yield</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t('Estimated Yield')}</CardTitle>
                   <BarChart className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{result.yieldEstimate}</div>
+                  <div className="text-2xl font-bold">{t(result.yieldEstimate)}</div>
                 </CardContent>
               </Card>
                <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sustainability Score</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t('Sustainability Score')}</CardTitle>
                   <ShieldCheck className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -88,7 +90,7 @@ export function CropSuggestion() {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> Suggested Crops</h3>
+              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> {t('Suggested Crops')}</h3>
               <div className="grid grid-cols-1 gap-4">
                 {result.crops.map((crop, index) => {
                   const placeholderImage = findImage(crop.name);
@@ -100,16 +102,16 @@ export function CropSuggestion() {
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <CardTitle className="flex items-center">
-                            {crop.name}
+                            {t(crop.name)}
                             {crop.name === result.bestCrop && (
                               <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
-                                <Star className="mr-1 h-3 w-3" /> Best Choice
+                                <Star className="mr-1 h-3 w-3" /> {t('Best Choice')}
                               </Badge>
                             )}
                           </CardTitle>
                            <div className="flex items-center text-sm text-muted-foreground">
                             <CalendarDays className="mr-2 h-4 w-4" />
-                            <span>{crop.growthTime}</span>
+                            <span>{t(crop.growthTime)}</span>
                           </div>
                         </div>
                       </CardHeader>
