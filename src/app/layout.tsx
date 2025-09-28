@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/hooks/use-language';
 
 export const metadata: Metadata = {
-  title: 'AgriGenius',
+  title: 'KRISHI',
   description: 'AI-powered crop advisory for modern farmers.',
 };
 
