@@ -52,19 +52,21 @@ const prompt = ai.definePrompt({
   name: 'cropAnalysisPrompt',
   output: {schema: CropAnalysisOutputSchema},
   tools: [getMarketPriceTool],
-  prompt: `You are an AI assistant that provides information about crops.
+  prompt: `You are an AI assistant that provides information about specific crops.
 
-  Provide a list of 7 common crops with the following details for each:
-  - Name
-  - Typical production months (e.g., "June - August" or "All Year")
-  - A simple two-word description for a placeholder image
-  - Soil preference
-  - Water needs
-  - Current market demand (High, Medium, or Low)
+  Provide a detailed analysis for the following crops: Wheat, Corn, Rice, Sugarcane, Chickpea, Lentil, Soybeans.
+
+  For each crop, you MUST provide the following details:
+  - Name: The crop's name as provided in this prompt.
+  - Typical production months (e.g., "June - August" or "All Year").
+  - A simple two-word description for a placeholder image.
+  - Soil preference.
+  - Water needs.
+  - Current market demand (High, Medium, or Low).
   
-  For each crop, use the getMarketPrice tool to fetch its market price.
+  Crucially, for each and every crop in the list, you MUST use the getMarketPrice tool to fetch its current market price.
 
-  Format the output as a JSON object. The 'crops' field should be an array of objects, each with 'name', 'productionMonths', 'imageDescription', 'soilPreference', 'waterNeeds', 'marketPrice', and 'marketDemand'.
+  Format the output as a single JSON object. The 'crops' field should be an array of objects, each containing 'name', 'productionMonths', 'imageDescription', 'soilPreference', 'waterNeeds', 'marketPrice', and 'marketDemand'.
   `,
 });
 
