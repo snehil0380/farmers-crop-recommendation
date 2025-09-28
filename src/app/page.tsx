@@ -6,7 +6,7 @@ import { CropSuggestion } from "@/components/aggenius/crop-suggestion";
 import { DiseaseDetection } from "@/components/aggenius/disease-detection";
 import { CropAnalysis } from "@/components/aggenius/crop-analysis";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, Stethoscope, BarChart } from "lucide-react";
+import { Wheat, Stethoscope, BarChart } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
           <Tabs defaultValue="suggestion" className="w-full">
             <TabsList className="grid w-full grid-cols-3 bg-primary/10 rounded-lg">
               <TabsTrigger value="suggestion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
-                <Leaf className="mr-2 h-4 w-4" />
+                <Wheat className="mr-2 h-4 w-4" />
                 {t('Crop Advisor')}
               </TabsTrigger>
               <TabsTrigger value="detection" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
