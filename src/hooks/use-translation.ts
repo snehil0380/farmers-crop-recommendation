@@ -39,14 +39,20 @@ export function useTranslation() {
     }
 
     try {
-      const { data, error } = await getTranslationsBatch({ texts: textsNotInCache, targetLanguage: language });
+      const { data, error } = await getTranslationsBatch({
+        texts: textsNotInCache,
+        targetLanguage: language,
+      });
+
       if (error || !data) {
         console.error('Batch translation error:', error);
         // Mark these as failed to prevent retrying them immediately
-        textsNotInCache.forEach(text => failedTranslations.add(`${language}:${text}`));
+        textsNotInCache.forEach(text =>
+          failedTranslations.add(`${language}:${text}`)
+        );
         return;
       }
-
+      
       const newTranslations = data.translatedTexts;
 
       if (!translationsCache[language]) {
