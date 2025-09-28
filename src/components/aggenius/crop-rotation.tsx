@@ -148,7 +148,8 @@ export function CropRotation() {
   }, []);
   
   const sortedRotation = useMemo(() => {
-    return result?.rotation.sort((a, b) => a.step - b.step);
+    if (!result?.rotation) return [];
+    return [...result.rotation].sort((a, b) => a.step - b.step);
   }, [result]);
 
 
