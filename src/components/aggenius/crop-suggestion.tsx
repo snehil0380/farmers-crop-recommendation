@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getCropSuggestions } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import type { SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
-import { Loader2, BarChart, Sprout, ShieldCheck, Star, CalendarDays } from "lucide-react";
+import { Loader2, BarChart, Sprout, ShieldCheck, Star, CalendarDays, CheckCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { SoilAnalysis } from "./soil-analysis";
 import { Badge } from "@/components/ui/badge";
@@ -16,8 +16,12 @@ import { findImage } from "@/lib/placeholder-images";
 import { useTranslation } from "@/hooks/use-translation";
 
 const formSchema = z.object({
-  ph: z.coerce.number().min(0).max(14, "pH must be between 0 and 14."),
-  moisture: z.coerce.number().min(0).max(100, "Moisture must be between 0 and 100."),
+  nitrogen: z.coerce.number(),
+  phosphorus: z.coerce.number(),
+  potassium: z.coerce.number(),
+  ph: z.coerce.number().min(0).max(14),
+  temperature: z.coerce.number(),
+  rainfall: z.coerce.number(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -62,76 +66,62 @@ export function CropSuggestion() {
 
       {result && (
         <Card className="bg-primary/5 border-primary/20">
-          <CardHeader>
-            <CardTitle>{t('Our Recommendations')}</CardTitle>
-            <CardDescription>{t('Based on your soil data, here are our suggestions.')}</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-6">
+            <CardHeader className="flex flex-row items-center space-x-2 bg-green-100 dark:bg-green-900/50 p-4 rounded-t-lg">
+                <CheckCircle className="h-6 w-6 text-green-700 dark:text-green-400" />
+                <div>
+                    <CardTitle className="text-base font-semibold">{t('Recommended Crop')}: {t(result.bestCrop)}</CardTitle>
+                </div>
+            </CardHeader>
+          <CardContent className="p-6 grid gap-4">
+            <p><span className="font-semibold">{t('Expected Yield')}:</span> {t(result.yieldEstimate)}</p>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t('Estimated Yield')}</CardTitle>
-                  <BarChart className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{t(result.yieldEstimate)}</div>
-                </CardContent>
-              </Card>
-               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t('Sustainability Score')}</CardTitle>
-                  <ShieldCheck className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{result.sustainabilityScore} / 100</div>
-                  <Progress value={result.sustainabilityScore} className="mt-2" />
-                </CardContent>
-              </Card>
+              {result.crops.map((crop, index) => {
+                if (crop.name !== result.bestCrop) return null;
+
+                const placeholderImage = findImage(crop.name);
+                const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
+                
+                return (
+                  <Card key={index} className="col-span-1 md:col-span-2">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center">
+                          {t(crop.name)}
+                        </CardTitle>
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <CalendarDays className="mr-2 h-4 w-4" />
+                          <span>{t(crop.growthTime)}</span>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <Image
+                        src={imageUrl}
+                        alt={`Image of ${crop.name}`}
+                        width={600}
+                        height={400}
+                        className="rounded-lg object-cover aspect-[3/2]"
+                        data-ai-hint={crop.imageDescription}
+                      />
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
             
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> {t('Suggested Crops')}</h3>
-              <div className="grid grid-cols-1 gap-4">
-                {result.crops.map((crop, index) => {
-                  const placeholderImage = findImage(crop.name);
-                  const imageUrl =
-                    placeholderImage?.imageUrl ||
-                    `https://picsum.photos/seed/${encodeURIComponent(
-                      crop.name
-                    )}/600/400`;
-                  return (
-                    <Card key={index} className={crop.name === result.bestCrop ? 'border-primary shadow-lg' : ''}>
-                      <CardHeader>
-                        <div className="flex items-center justify-between">
-                          <CardTitle className="flex items-center">
-                            {t(crop.name)}
-                            {crop.name === result.bestCrop && (
-                              <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
-                                <Star className="mr-1 h-3 w-3" /> {t('Best Choice')}
-                              </Badge>
-                            )}
-                          </CardTitle>
-                           <div className="flex items-center text-sm text-muted-foreground">
-                            <CalendarDays className="mr-2 h-4 w-4" />
-                            <span>{t(crop.growthTime)}</span>
-                          </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <Image
-                          src={imageUrl}
-                          alt={`Image of ${crop.name}`}
-                          width={600}
-                          height={400}
-                          className="rounded-lg object-cover aspect-[3/2]"
-                          data-ai-hint={crop.imageDescription}
-                        />
-                      </CardContent>
-                    </Card>
-                  );
+            <div>
+              <h3 className="text-lg font-semibold flex items-center mb-2"><Sprout className="mr-2 h-5 w-5" /> {t('Other Suggestions')}</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {result.crops.map((crop) => {
+                   if (crop.name === result.bestCrop) return null;
+                   return (
+                    <Badge key={crop.name} variant="outline" className="justify-center py-1 px-2 text-sm">{t(crop.name)}</Badge>
+                   )
                 })}
               </div>
             </div>
+
           </CardContent>
         </Card>
       )}

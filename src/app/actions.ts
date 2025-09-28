@@ -8,11 +8,15 @@ import { translateTextsBatch, TranslateTextsBatchInput, TranslateTextsBatchOutpu
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
+  nitrogen: z.coerce.number(),
+  phosphorus: z.coerce.number(),
+  potassium: z.coerce.number(),
   ph: z.coerce.number().min(0).max(14),
-  moisture: z.coerce.number().min(0).max(100),
+  temperature: z.coerce.number(),
+  rainfall: z.coerce.number(),
 });
 
-export async function getCropSuggestions(data: { ph: number, moisture: number }): Promise<{data: SuggestCropsOutput | null; error: string | null}> {
+export async function getCropSuggestions(data: SuggestCropsInput): Promise<{data: SuggestCropsOutput | null; error: string | null}> {
   const validatedFields = cropSuggestionSchema.safeParse(data);
 
   if (!validatedFields.success) {
