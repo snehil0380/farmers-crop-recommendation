@@ -48,6 +48,7 @@ const translateTextsBatchFlow = ai.defineFlow(
   async ({ texts, targetLanguage }) => {
     try {
       const translatedTexts = await batchTranslationTool({ texts, targetLanguage });
+      // This was the missing piece. We need to return the result in the expected format.
       return { translatedTexts };
     } catch (e) {
       console.error("Error in translateTextsBatchFlow:", e);
