@@ -44,7 +44,7 @@ function SimilarCropsSection() {
     if (error) {
       toast({
         title: t('Error'),
-        description: error,
+        description: t(error),
         variant: 'destructive',
       });
     } else {
@@ -89,7 +89,7 @@ function SimilarCropsSection() {
         <Card className="bg-primary/5">
           <CardHeader>
             <CardTitle>{t('Suggested Alternatives')}</CardTitle>
-            <CardDescription>{t('Here are some crops similar to')} "{query}".</CardDescription>
+            <CardDescription>{t('Here are some crops similar to')} "{t(query)}".</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
             {result.crops.map((crop, index) => {
@@ -129,8 +129,8 @@ export function CropRotation() {
 
     if (error) {
       toast({
-        title: 'Error',
-        description: error,
+        title: t('Error'),
+        description: t(error),
         variant: 'destructive',
       });
     } else {

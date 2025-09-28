@@ -45,6 +45,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
     <Card>
       <CardHeader>
         <CardTitle>{t('Soil Analysis')}</CardTitle>
+        <CardDescription>{t('Enter your soil and climate data to get a crop recommendation.')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

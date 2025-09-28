@@ -113,8 +113,8 @@ export function CropAnalysis() {
 
     if (error) {
       toast({
-        title: 'Error',
-        description: error,
+        title: t('Error'),
+        description: t(error),
         variant: 'destructive',
       });
     } else {

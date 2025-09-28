@@ -83,7 +83,7 @@ export function CropSuggestion() {
                       <div>
                         <Image
                           src={imageUrl}
-                          alt={`Image of ${recommendedCrop.name}`}
+                          alt={`Image of ${t(recommendedCrop.name)}`}
                           width={600}
                           height={400}
                           className="rounded-lg object-cover aspect-[3/2]"

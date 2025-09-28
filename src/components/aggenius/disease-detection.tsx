@@ -107,7 +107,7 @@ export function DiseaseDetection() {
               >
                 {preview ? (
                   <div className="relative w-full h-full">
-                     <Image src={preview} alt="Crop preview" fill className="object-contain p-2 rounded-lg" />
+                     <Image src={preview} alt={t("Crop preview")} fill className="object-contain p-2 rounded-lg" />
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
