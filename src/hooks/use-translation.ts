@@ -5,6 +5,7 @@ import { useLanguage } from './use-language';
 import { getTranslation, getTranslationsBatch } from '@/app/actions';
 
 const translationsCache: Record<string, Record<string, string>> = {};
+const failedTranslations = new Set<string>();
 
 export function useTranslation() {
   const { language } = useLanguage();
@@ -28,11 +29,11 @@ export function useTranslation() {
     }
 
     const textsNotInCache = texts.filter(
-      (text) => !(translationsCache[language] && translationsCache[language][text])
+      (text) => !(translationsCache[language] && translationsCache[language][text]) && !failedTranslations.has(`${language}:${text}`)
     );
     
     if (textsNotInCache.length === 0) {
-      // All translations are already in cache, just update the state if needed
+      // All translations are already in cache or have failed before, just update the state if needed
       setTranslations(prev => ({...prev, ...translationsCache[language]}));
       return;
     }
@@ -41,8 +42,8 @@ export function useTranslation() {
       const { data, error } = await getTranslationsBatch({ texts: textsNotInCache, targetLanguage: language });
       if (error || !data) {
         console.error('Batch translation error:', error);
-        // Add untranslated texts back to the queue for a potential retry
-        textsNotInCache.forEach(text => textsToTranslate.current.add(text));
+        // Mark these as failed to prevent retrying them immediately
+        textsNotInCache.forEach(text => failedTranslations.add(`${language}:${text}`));
         return;
       }
 
@@ -56,7 +57,7 @@ export function useTranslation() {
       setTranslations(prev => ({ ...prev, ...newTranslations }));
     } catch (e) {
       console.error('Batch translation failed:', e);
-      textsNotInCache.forEach(text => textsToTranslate.current.add(text));
+      textsNotInCache.forEach(text => failedTranslations.add(`${language}:${text}`));
     }
   }, [language]);
 
@@ -72,6 +73,10 @@ export function useTranslation() {
       
       if (cachedTranslation) {
         return cachedTranslation;
+      }
+      
+      if (failedTranslations.has(`${language}:${text}`)) {
+        return text; // Return original text if it has failed before
       }
 
       textsToTranslate.current.add(text);
