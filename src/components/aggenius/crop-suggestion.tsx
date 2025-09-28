@@ -50,6 +50,11 @@ export function CropSuggestion() {
     setIsLoading(false);
   }
 
+  // Find the full crop object for the best recommendation
+  const recommendedCrop = result?.crops.find(crop => crop.name === result.bestCrop);
+  const placeholderImage = recommendedCrop ? findImage(recommendedCrop.name) : undefined;
+  const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(recommendedCrop?.name || 'plant')}/600/400`;
+
   return (
     <div className="space-y-8">
       <SoilAnalysis onSubmit={onSubmit} isLoading={isLoading} />
@@ -74,29 +79,22 @@ export function CropSuggestion() {
           <CardContent className="p-6 grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <div className="space-y-4">
-                 {result.crops
-                  .filter(crop => crop.name === result.bestCrop)
-                  .map((crop) => {
-                    const placeholderImage = findImage(crop.name);
-                    const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
-                    
-                    return (
-                      <div key={crop.name}>
+                 {recommendedCrop && (
+                      <div>
                         <Image
                           src={imageUrl}
-                          alt={`Image of ${crop.name}`}
+                          alt={`Image of ${recommendedCrop.name}`}
                           width={600}
                           height={400}
                           className="rounded-lg object-cover aspect-[3/2]"
-                          data-ai-hint={crop.imageDescription}
+                          data-ai-hint={recommendedCrop.imageDescription}
                         />
                         <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                          <span>{t(crop.growthTime)}</span>
+                          <span>{t(recommendedCrop.growthTime)}</span>
                           <span><span className="font-semibold">{t('Yield')}:</span> {t(result.yieldEstimate)}</span>
                         </div>
                       </div>
-                    );
-                  })}
+                    )}
               </div>
 
               <div className="space-y-4">
