@@ -40,10 +40,9 @@ export async function translateText(text: string, targetLanguage: string): Promi
     });
 
     if (!response.ok) {
-        console.error('Translation API request failed:', response.statusText);
         const errorBody = await response.text();
-        console.error('Error body:', errorBody);
-        return text; // Fallback to original text
+        console.error('Translation API request failed:', response.statusText, errorBody);
+        throw new Error(`Translation API request failed: ${response.statusText}`);
     }
 
     const result = await response.json();
@@ -81,12 +80,9 @@ export async function translateTextsBatch(
   });
 
   if (!response.ok) {
-    console.error('Batch translation API request failed:', response.statusText);
     const errorBody = await response.text();
-    console.error('Error body:', errorBody);
-    const fallbackResult: Record<string, string> = {};
-    texts.forEach(text => (fallbackResult[text] = text));
-    return fallbackResult;
+    console.error('Batch translation API request failed:', response.statusText, errorBody);
+    throw new Error(`Batch translation API request failed: ${response.statusText}`);
   }
 
   const result = await response.json();
