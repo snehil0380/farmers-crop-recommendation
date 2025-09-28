@@ -34,7 +34,7 @@ export async function getCropRotationSuggestions(): Promise<CropRotationSuggesti
 const prompt = ai.definePrompt({
   name: 'cropRotationSuggestionPrompt',
   output: {schema: CropRotationSuggestionOutputSchema},
-  prompt: `You are an agricultural expert providing a 4-step crop rotation plan based on the sequence: Corn, Legumes, Root Crops, Cereals.
+  prompt: `You are an agricultural expert providing a 4-step crop rotation plan.
 
   For each step in the rotation, provide:
   - The step number (1-4).
@@ -46,11 +46,11 @@ const prompt = ai.definePrompt({
 
   Also provide a summary of the overall benefits of crop rotation.
 
-  The rotation order is:
-  1. Corn
-  2. Legumes
-  3. Root Crops
-  4. Cereals
+  The rotation order and their corresponding icons MUST be:
+  1. Corn (icon: 'Corn')
+  2. Legumes (icon: 'Bean')
+  3. Root Crops (icon: 'Carrot')
+  4. Cereals (icon: 'Wheat')
 
   Keep descriptions concise.
   `,

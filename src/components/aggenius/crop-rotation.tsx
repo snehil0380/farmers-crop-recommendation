@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Image from 'next/image';
 import { getCropRotationSuggestions, getSimilarCrops } from '@/app/actions';
 import type { CropRotationSuggestionOutput } from '@/ai/flows/crop-rotation-suggestion';
 import type { SuggestSimilarCropsOutput } from '@/ai/flows/suggest-similar-crops';
@@ -12,7 +11,6 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, ArrowRight, CheckCircle, Leaf, Zap, Wheat, Carrot, Bean, Search, Lightbulb } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { findImage } from '@/lib/placeholder-images';
 
 const iconMap: Record<string, React.ElementType> = {
   Corn: Wheat, // Using Wheat for Corn as it's visually similar in this context
@@ -95,18 +93,8 @@ function SimilarCropsSection() {
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
             {result.crops.map((crop, index) => {
-              const placeholderImage = findImage(crop.name);
-              const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
               return (
                 <Card key={index} className="overflow-hidden">
-                   <Image
-                      src={imageUrl}
-                      alt={`Image of ${t(crop.name)}`}
-                      width={600}
-                      height={400}
-                      className="object-cover w-full h-32"
-                      data-ai-hint={crop.imageDescription}
-                    />
                   <CardHeader>
                     <CardTitle className="text-lg">{t(crop.name)}</CardTitle>
                   </CardHeader>
@@ -186,17 +174,16 @@ export function CropRotation() {
         </CardHeader>
       </Card>
       
-      <SimilarCropsSection />
-
       {result && (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start relative">
             {sortedRotation?.map((item, index) => {
               const Icon = iconMap[item.icon] || Leaf;
+              const isLastItem = index === sortedRotation.length - 1;
 
               return (
-                <div key={item.step} className="flex flex-col items-center">
-                  <Card className="w-full relative shadow-lg">
+                <div key={item.step} className="flex flex-col items-center relative md:pr-8 lg:pr-12">
+                  <Card className="w-full shadow-lg">
                     <CardHeader>
                       <div className="flex items-center space-x-4">
                         <div className="bg-primary/10 p-3 rounded-full">
@@ -210,28 +197,38 @@ export function CropRotation() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
-                        <h4 className="font-semibold flex items-center"><CheckCircle className="mr-2 h-4 w-4 text-green-500" />{t('Benefits')}</h4>
-                        <p className="text-muted-foreground text-sm">{t(item.benefits)}</p>
+                        <h4 className="font-semibold flex items-center text-sm"><CheckCircle className="mr-2 h-4 w-4 text-green-500" />{t('Benefits')}</h4>
+                        <p className="text-muted-foreground text-xs">{t(item.benefits)}</p>
                       </div>
                        <div>
-                        <h4 className="font-semibold flex items-center"><Zap className="mr-2 h-4 w-4 text-yellow-500" />{t('Requirements')}</h4>
-                        <p className="text-muted-foreground text-sm">{t(item.requirements)}</p>
+                        <h4 className="font-semibold flex items-center text-sm"><Zap className="mr-2 h-4 w-4 text-yellow-500" />{t('Requirements')}</h4>
+                        <p className="text-muted-foreground text-xs">{t(item.requirements)}</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold">{t('Examples')}</h4>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {item.examples.map(ex => <Badge key={ex} variant="secondary">{t(ex)}</Badge>)}
+                        <h4 className="font-semibold text-sm">{t('Examples')}</h4>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {item.examples.map(ex => <Badge key={ex} variant="secondary" className="text-xs">{t(ex)}</Badge>)}
                         </div>
                       </div>
                     </CardContent>
-                     {/* Arrow logic */}
-                    <div className="absolute top-1/2 -right-4 -translate-y-1/2 hidden md:block">
-                       <ArrowRight className="h-8 w-8 text-muted-foreground" />
-                    </div>
-                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-4 md:hidden">
-                       <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
-                    </div>
                   </Card>
+                   {/* Arrow logic */}
+                  {!isLastItem && (
+                    <>
+                      <div className="absolute top-1/2 -right-0 -translate-y-1/2 hidden lg:block">
+                        <ArrowRight className="h-8 w-8 text-muted-foreground" />
+                      </div>
+                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-4 lg:hidden">
+                        <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
+                      </div>
+                    </>
+                  )}
+                   {/* Arrow for md screens wrapping to next line */}
+                   {index === 1 && (
+                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-4 hidden md:block lg:hidden">
+                        <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
+                     </div>
+                   )}
                 </div>
               );
             })}
@@ -247,6 +244,8 @@ export function CropRotation() {
           </Card>
         </>
       )}
+
+      <SimilarCropsSection />
     </div>
   );
 }
