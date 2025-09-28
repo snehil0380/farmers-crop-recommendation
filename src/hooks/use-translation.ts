@@ -33,17 +33,12 @@ export function useTranslation() {
     );
     
     if (textsNotInCache.length === 0) {
-      // All translations are already in cache or have failed before, just update the state if needed
       setTranslations(prev => ({...prev, ...translationsCache[language]}));
       return;
     }
 
     try {
-      const { data, error } = await getTranslationsBatch({
-        texts: textsNotInCache,
-        targetLanguage: language,
-      });
-
+      const { data, error } = await getTranslationsBatch({ texts: textsNotInCache, targetLanguage: language });
       if (error || !data) {
         console.error('Batch translation error:', error);
         // Mark these as failed to prevent retrying them immediately
