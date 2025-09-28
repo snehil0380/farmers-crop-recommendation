@@ -1,5 +1,6 @@
 import { Wheat } from "lucide-react";
 import { LanguageSelector } from "./language-selector";
+import { AudioRecorder } from "./audio-recorder";
 
 export function Header() {
   return (
@@ -13,7 +14,10 @@ export function Header() {
             </span>
           </a>
         </div>
-        <LanguageSelector />
+        <div className="flex items-center gap-2">
+          <AudioRecorder />
+          <LanguageSelector />
+        </div>
       </div>
     </header>
   );

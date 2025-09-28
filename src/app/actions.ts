@@ -6,6 +6,7 @@ import { getCropAnalysis as getCropAnalysisFlow, CropAnalysisOutput } from "@/ai
 import { translateText, TranslateTextInput, TranslateTextOutput } from "@/ai/flows/translate-text";
 import { translateTextsBatch, TranslateTextsBatchInput, TranslateTextsBatchOutput } from "@/ai/flows/translate-texts-batch";
 import { getCropRotationSuggestions as getCropRotationSuggestionsFlow, CropRotationSuggestionOutput } from "@/ai/flows/crop-rotation-suggestion";
+import { speechToText, SpeechToTextInput, SpeechToTextOutput } from "@/ai/flows/speech-to-text";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -111,5 +112,25 @@ export async function getCropRotationSuggestions(): Promise<{data: CropRotationS
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to get crop rotation suggestions. Please try again." };
+  }
+}
+
+const speechToTextSchema = z.object({
+  audioDataUri: z.string().startsWith("data:audio/"),
+});
+
+export async function getSpeechToText(data: SpeechToTextInput): Promise<{data: SpeechToTextOutput | null; error: string | null}> {
+  const validatedFields = speechToTextSchema.safeParse(data);
+
+  if (!validatedFields.success) {
+    return { data: null, error: "Invalid audio format." };
+  }
+
+  try {
+    const result = await speechToText(validatedFields.data);
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to process audio. Please try again." };
   }
 }
