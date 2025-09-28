@@ -5,6 +5,7 @@ import { imageBasedDiseaseDetection, ImageBasedDiseaseDetectionInput, ImageBased
 import { getCropAnalysis as getCropAnalysisFlow, CropAnalysisOutput } from "@/ai/flows/crop-analysis";
 import { translateText, TranslateTextInput, TranslateTextOutput } from "@/ai/flows/translate-text";
 import { translateTextsBatch, TranslateTextsBatchInput, TranslateTextsBatchOutput } from "@/ai/flows/translate-texts-batch";
+import { getCropRotationSuggestions as getCropRotationSuggestionsFlow, CropRotationSuggestionOutput } from "@/ai/flows/crop-rotation-suggestion";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -100,5 +101,15 @@ export async function getTranslationsBatch(data: { texts: string[], targetLangua
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to translate texts. Please try again." };
+  }
+}
+
+export async function getCropRotationSuggestions(): Promise<{data: CropRotationSuggestionOutput | null; error: string | null}> {
+  try {
+    const result = await getCropRotationSuggestionsFlow();
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to get crop rotation suggestions. Please try again." };
   }
 }

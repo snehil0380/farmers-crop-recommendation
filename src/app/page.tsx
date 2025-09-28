@@ -5,8 +5,9 @@ import { Header } from "@/components/aggenius/header";
 import { CropSuggestion } from "@/components/aggenius/crop-suggestion";
 import { DiseaseDetection } from "@/components/aggenius/disease-detection";
 import { CropAnalysis } from "@/components/aggenius/crop-analysis";
+import { CropRotation } from "@/components/aggenius/crop-rotation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Wheat, Stethoscope, BarChart } from "lucide-react";
+import { Wheat, Stethoscope, BarChart, RefreshCw } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
       <main className="flex flex-1 flex-col items-center gap-4 p-4 md:gap-8 md:p-8">
         <div className="w-full max-w-4xl mx-auto">
           <Tabs defaultValue="suggestion" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-primary/10 rounded-lg">
+            <TabsList className="grid w-full grid-cols-4 bg-primary/10 rounded-lg">
               <TabsTrigger value="suggestion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Wheat className="mr-2 h-4 w-4" />
                 {t('Crop Advisor')}
@@ -31,6 +32,10 @@ export default function Home() {
                 <BarChart className="mr-2 h-4 w-4" />
                 {t('Crop Analysis')}
               </TabsTrigger>
+              <TabsTrigger value="rotation" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
+                <RefreshCw className="mr-2 h-4 w-4" />
+                {t('Crop Rotation')}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="suggestion" className="mt-6">
               <CropSuggestion />
@@ -40,6 +45,9 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="analysis" className="mt-6">
               <CropAnalysis />
+            </TabsContent>
+            <TabsContent value="rotation" className="mt-6">
+              <CropRotation />
             </TabsContent>
           </Tabs>
         </div>
