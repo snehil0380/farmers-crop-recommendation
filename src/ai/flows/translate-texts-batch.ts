@@ -46,7 +46,13 @@ const translateTextsBatchFlow = ai.defineFlow(
     outputSchema: TranslateTextsBatchOutputSchema,
   },
   async ({ texts, targetLanguage }) => {
-    const translatedTexts = await batchTranslationTool({ texts, targetLanguage });
-    return { translatedTexts };
+    try {
+      const translatedTexts = await batchTranslationTool({ texts, targetLanguage });
+      return { translatedTexts };
+    } catch (e) {
+      console.error("Error in translateTextsBatchFlow:", e);
+      // Re-throw the error to be caught by the server action
+      throw e;
+    }
   }
 );
