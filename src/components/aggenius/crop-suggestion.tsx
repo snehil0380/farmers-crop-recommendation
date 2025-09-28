@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import * as z from "zod";
 
@@ -26,47 +26,7 @@ export function CropSuggestion() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<SuggestCropsOutput | null>(null);
   const { toast } = useToast();
-  const { t, translateText, language } = useTranslation();
-
-  const [analyzingText, setAnalyzingText] = useState('Analyzing your soil...');
-  const [recommendationsTitle, setRecommendationsTitle] = useState('Our Recommendations');
-  const [recommendationsDesc, setRecommendationsDesc] = useState('Based on your soil data, here are our suggestions.');
-  const [yieldLabel, setYieldLabel] = useState('Estimated Yield');
-  const [sustainabilityLabel, setSustainabilityLabel] = useState('Sustainability Score');
-  const [suggestedCropsLabel, setSuggestedCropsLabel] = useState('Suggested Crops');
-  const [bestChoiceLabel, setBestChoiceLabel] = useState('Best Choice');
-
-
-  useEffect(() => {
-    if (language !== 'en') {
-      Promise.all([
-        translateText('Analyzing your soil...'),
-        translateText('Our Recommendations'),
-        translateText('Based on your soil data, here are our suggestions.'),
-        translateText('Estimated Yield'),
-        translateText('Sustainability Score'),
-        translateText('Suggested Crops'),
-        translateText('Best Choice'),
-      ]).then(([t1, t2, t3, t4, t5, t6, t7]) => {
-        setAnalyzingText(t1);
-        setRecommendationsTitle(t2);
-        setRecommendationsDesc(t3);
-        setYieldLabel(t4);
-        setSustainabilityLabel(t5);
-        setSuggestedCropsLabel(t6);
-        setBestChoiceLabel(t7);
-      });
-    } else {
-      setAnalyzingText('Analyzing your soil...');
-      setRecommendationsTitle('Our Recommendations');
-      setRecommendationsDesc('Based on your soil data, here are our suggestions.');
-      setYieldLabel('Estimated Yield');
-      setSustainabilityLabel('Sustainability Score');
-      setSuggestedCropsLabel('Suggested Crops');
-      setBestChoiceLabel('Best Choice');
-    }
-  }, [language, translateText]);
-
+  const { t } = useTranslation();
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
@@ -95,7 +55,7 @@ export function CropSuggestion() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center space-y-4 min-h-[200px]">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">{analyzingText}</p>
+            <p className="text-muted-foreground">{t('Analyzing your soil...')}</p>
           </CardContent>
         </Card>
       )}
@@ -103,14 +63,14 @@ export function CropSuggestion() {
       {result && (
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
-            <CardTitle>{recommendationsTitle}</CardTitle>
-            <CardDescription>{recommendationsDesc}</CardDescription>
+            <CardTitle>{t('Our Recommendations')}</CardTitle>
+            <CardDescription>{t('Based on your soil data, here are our suggestions.')}</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{yieldLabel}</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t('Estimated Yield')}</CardTitle>
                   <BarChart className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -119,7 +79,7 @@ export function CropSuggestion() {
               </Card>
                <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{sustainabilityLabel}</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t('Sustainability Score')}</CardTitle>
                   <ShieldCheck className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -130,7 +90,7 @@ export function CropSuggestion() {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> {suggestedCropsLabel}</h3>
+              <h3 className="text-lg font-semibold flex items-center"><Sprout className="mr-2 h-5 w-5" /> {t('Suggested Crops')}</h3>
               <div className="grid grid-cols-1 gap-4">
                 {result.crops.map((crop, index) => {
                   const placeholderImage = findImage(crop.name);
@@ -147,7 +107,7 @@ export function CropSuggestion() {
                             {t(crop.name)}
                             {crop.name === result.bestCrop && (
                               <Badge variant="default" className="ml-2 bg-accent text-accent-foreground">
-                                <Star className="mr-1 h-3 w-3" /> {bestChoiceLabel}
+                                <Star className="mr-1 h-3 w-3" /> {t('Best Choice')}
                               </Badge>
                             )}
                           </CardTitle>

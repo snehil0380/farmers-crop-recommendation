@@ -4,6 +4,7 @@ import { suggestCrops, SuggestCropsInput, SuggestCropsOutput } from "@/ai/flows/
 import { imageBasedDiseaseDetection, ImageBasedDiseaseDetectionInput, ImageBasedDiseaseDetectionOutput } from "@/ai/flows/image-based-disease-detection";
 import { getCropAnalysis as getCropAnalysisFlow, CropAnalysisOutput } from "@/ai/flows/crop-analysis";
 import { translateText, TranslateTextInput, TranslateTextOutput } from "@/ai/flows/translate-text";
+import { translateTextsBatch, TranslateTextsBatchInput, TranslateTextsBatchOutput } from "@/ai/flows/translate-texts-batch";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -75,5 +76,25 @@ export async function getTranslation(data: { text: string, targetLanguage: strin
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to translate text. Please try again." };
+  }
+}
+
+const translateTextsBatchSchema = z.object({
+  texts: z.array(z.string()),
+  targetLanguage: z.string(),
+});
+
+export async function getTranslationsBatch(data: { texts: string[], targetLanguage: string }): Promise<{data: TranslateTextsBatchOutput | null; error: string | null}> {
+  const validatedFields = translateTextsBatchSchema.safeParse(data);
+  if (!validatedFields.success) {
+    return { data: null, error: "Invalid input for batch translation." };
+  }
+
+  try {
+    const result = await translateTextsBatch(validatedFields.data);
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to translate texts. Please try again." };
   }
 }

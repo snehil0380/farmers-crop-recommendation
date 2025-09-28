@@ -10,29 +10,7 @@ import { Leaf, Stethoscope, BarChart } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function Home() {
-  const { t, translateText, language } = useTranslation();
-  const [tab1, setTab1] = useState('Crop Advisor');
-  const [tab2, setTab2] = useState('Disease Detection');
-  const [tab3, setTab3] = useState('Crop Analysis');
-
-  useEffect(() => {
-    if (language !== 'en') {
-      Promise.all([
-        translateText('Crop Advisor'),
-        translateText('Disease Detection'),
-        translateText('Crop Analysis')
-      ]).then(([t1, t2, t3]) => {
-        setTab1(t1);
-        setTab2(t2);
-        setTab3(t3);
-      });
-    } else {
-      setTab1('Crop Advisor');
-      setTab2('Disease Detection');
-      setTab3('Crop Analysis');
-    }
-  }, [language, translateText]);
-
+  const { t } = useTranslation();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -43,15 +21,15 @@ export default function Home() {
             <TabsList className="grid w-full grid-cols-3 bg-primary/10 rounded-lg">
               <TabsTrigger value="suggestion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Leaf className="mr-2 h-4 w-4" />
-                {tab1}
+                {t('Crop Advisor')}
               </TabsTrigger>
               <TabsTrigger value="detection" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <Stethoscope className="mr-2 h-4 w-4" />
-                {tab2}
+                {t('Disease Detection')}
               </TabsTrigger>
               <TabsTrigger value="analysis" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
                 <BarChart className="mr-2 h-4 w-4" />
-                {tab3}
+                {t('Crop Analysis')}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="suggestion" className="mt-6">
