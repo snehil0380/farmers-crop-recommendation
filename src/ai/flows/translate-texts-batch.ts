@@ -48,7 +48,7 @@ For example, if translating ["Get Suggestions", "Soil Analysis"] to Hindi, the o
   }
 }
 `,
-  model: 'gemini-2.5-flash',
+  model: 'googleai/gemini-1.5-flash',
 });
 
 const translateTextsBatchFlow = ai.defineFlow(

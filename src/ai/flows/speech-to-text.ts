@@ -38,7 +38,7 @@ const prompt = ai.definePrompt({
   prompt: `Transcribe the following audio recording. The language is {{language}}.
   {{media url=audioDataUri}}
   `,
-  model: 'gemini-2.5-flash',
+  model: 'googleai/gemini-1.5-flash',
 });
 
 const speechToTextFlow = ai.defineFlow(

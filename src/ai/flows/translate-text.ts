@@ -42,7 +42,7 @@ For example, if translating "Get Suggestions" to Hindi, the output must be:
   "translatedText": "सुझाव प्राप्त करें"
 }
 `,
-  model: 'gemini-2.5-flash',
+  model: 'googleai/gemini-1.5-flash',
 });
 
 const translateTextFlow = ai.defineFlow(
