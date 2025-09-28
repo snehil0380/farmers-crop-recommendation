@@ -1,14 +1,14 @@
 {
   "prices": {
-    "wheat": "$6.50 / bushel",
-    "corn": "$4.75 / bushel",
-    "soybeans": "$13.00 / bushel",
-    "rice": "$18.00 / cwt",
-    "cotton": "$0.85 / lb",
-    "potatoes": "$10.00 / cwt",
-    "tomatoes": "$0.60 / lb",
-    "lettuce": "$1.50 / head",
-    "apples": "$1.20 / lb",
-    "oranges": "$0.90 / lb"
+    "wheat": "₹2,400 / quintal",
+    "corn": "₹2,200 / quintal",
+    "soybeans": "₹4,800 / quintal",
+    "rice": "₹2,500 / quintal",
+    "cotton": "₹7,000 / quintal",
+    "potatoes": "₹1,500 / quintal",
+    "tomatoes": "₹25 / kg",
+    "lettuce": "₹50 / kg",
+    "apples": "₹100 / kg",
+    "oranges": "₹60 / kg"
   }
 }
