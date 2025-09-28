@@ -13,10 +13,10 @@ import { Languages } from 'lucide-react';
 
 const languages = [
   { value: 'en', label: 'English' },
-  { value: 'es', label: 'Spanish' },
-  { value: 'fr', label: 'French' },
   { value: 'hi', label: 'Hindi' },
-  { value: 'de', label: 'German' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'te', label: 'Telugu' },
 ];
 
 export function LanguageSelector() {
