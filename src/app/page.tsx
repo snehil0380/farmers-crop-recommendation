@@ -3,7 +3,7 @@ import { CropSuggestion } from "@/components/aggenius/crop-suggestion";
 import { DiseaseDetection } from "@/components/aggenius/disease-detection";
 import { CropAnalysis } from "@/components/aggenius/crop-analysis";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, Stethoscope, LineChart } from "lucide-react";
+import { Leaf, Stethoscope, BarChart } from "lucide-react";
 
 export default function Home() {
   return (
@@ -22,7 +22,7 @@ export default function Home() {
                 Disease Detection
               </TabsTrigger>
               <TabsTrigger value="analysis" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md">
-                <LineChart className="mr-2 h-4 w-4" />
+                <BarChart className="mr-2 h-4 w-4" />
                 Crop Analysis
               </TabsTrigger>
             </TabsList>

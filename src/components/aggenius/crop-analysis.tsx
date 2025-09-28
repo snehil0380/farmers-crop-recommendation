@@ -14,7 +14,7 @@ import {
 import { getCropAnalysis } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { CropAnalysisOutput } from '@/ai/flows/crop-analysis';
-import { Loader2, CalendarDays } from 'lucide-react';
+import { Loader2, CalendarDays, Droplets, Mountain, DollarSign } from 'lucide-react';
 
 export function CropAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,8 +46,8 @@ export function CropAnalysis() {
         <CardHeader>
           <CardTitle>Crop Production Analysis</CardTitle>
           <CardDescription>
-            Click the button to see a list of common crops and their typical
-            production months.
+            Click the button to see a list of common crops, their production
+            months, and market data.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -74,25 +74,16 @@ export function CropAnalysis() {
       {result && (
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
-            <CardTitle>Crop Production Seasons</CardTitle>
+            <CardTitle>Crop Data</CardTitle>
             <CardDescription>
-              A list of common crops and their growing seasons.
+              A list of common crops with their production and market details.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
               {result.crops.map((crop, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      {crop.name}
-                    </CardTitle>
-                    <div className="flex items-center text-sm text-muted-foreground pt-1">
-                      <CalendarDays className="mr-2 h-4 w-4" />
-                      <span>{crop.productionMonths}</span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
+                <Card key={index} className="flex flex-col md:flex-row">
+                  <div className="md:w-1/3">
                     <Image
                       src={`https://picsum.photos/seed/${crop.name
                         .toLowerCase()
@@ -100,10 +91,42 @@ export function CropAnalysis() {
                       alt={`Image of ${crop.name}`}
                       width={600}
                       height={400}
-                      className="rounded-lg object-cover aspect-[3/2]"
+                      className="rounded-t-lg md:rounded-l-lg md:rounded-t-none object-cover w-full h-full aspect-[3/2] md:aspect-auto"
                       data-ai-hint={crop.imageDescription}
                     />
-                  </CardContent>
+                  </div>
+                  <div className="md:w-2/3 flex flex-col">
+                    <CardHeader>
+                      <CardTitle>{crop.name}</CardTitle>
+                       <div className="flex items-center text-sm text-muted-foreground pt-1">
+                        <CalendarDays className="mr-2 h-4 w-4" />
+                        <span>{crop.productionMonths}</span>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm flex-grow">
+                      <div className="flex items-center">
+                        <Droplets className="mr-2 h-4 w-4 text-primary" />
+                        <div>
+                          <p className="font-semibold">Water Needs</p>
+                          <p className="text-muted-foreground">{crop.waterNeeds}</p>
+                        </div>
+                      </div>
+                       <div className="flex items-center">
+                        <Mountain className="mr-2 h-4 w-4 text-primary" />
+                         <div>
+                          <p className="font-semibold">Soil</p>
+                          <p className="text-muted-foreground">{crop.soilPreference}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center col-span-2">
+                        <DollarSign className="mr-2 h-4 w-4 text-primary" />
+                        <div>
+                          <p className="font-semibold">Market Price</p>
+                          <p className="text-muted-foreground">{crop.marketPrice || 'N/A'}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
                 </Card>
               ))}
             </div>
