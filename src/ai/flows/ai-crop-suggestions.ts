@@ -38,8 +38,8 @@ const SuggestCropsOutputSchema = z.object({
     .string()
     .describe('An estimate of the expected yield for the suggested crops (e.g., "18 quintals/acre").'),
   reasoning: z
-    .string()
-    .describe('A detailed explanation of why the best crop was chosen based on the input data.'),
+    .array(z.string())
+    .describe('A detailed explanation, as a list of bullet points, of why the best crop was chosen based on the input data.'),
 });
 export type SuggestCropsOutput = z.infer<typeof SuggestCropsOutputSchema>;
 
@@ -56,7 +56,7 @@ const prompt = ai.definePrompt({
   Based on the following data, suggest a few crops, provide a yield estimate, and identify the single best crop.
   For each crop, provide its name, the best time for it to grow, and a simple two-word description for a placeholder image.
   
-  Crucially, provide a detailed 'reasoning' for why the best crop is the top choice, explaining how the given soil and climate data support its growth.
+  Crucially, provide a detailed 'reasoning' for why the best crop is the top choice, explaining how the given soil and climate data support its growth. The reasoning should be an array of strings (bullet points).
 
   Nitrogen: {{nitrogen}}
   Phosphorus: {{phosphorus}}

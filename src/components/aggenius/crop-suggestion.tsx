@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getCropSuggestions } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import type { SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
-import { Loader2, Sprout, CheckCircle, Info } from "lucide-react";
+import { Loader2, Sprout, CheckCircle, List } from "lucide-react";
 import { SoilAnalysis } from "./soil-analysis";
 import { Badge } from "@/components/ui/badge";
 import { findImage } from "@/lib/placeholder-images";
@@ -102,11 +102,15 @@ export function CropSuggestion() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader className="flex flex-row items-center space-x-2 pb-2">
-                    <Info className="h-5 w-5 text-primary" />
+                    <List className="h-5 w-5 text-primary" />
                     <CardTitle className="text-lg">{t('Reasoning')}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{t(result.reasoning)}</p>
+                    <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-5">
+                      {result.reasoning.map((reason, index) => (
+                        <li key={index}>{t(reason)}</li>
+                      ))}
+                    </ul>
                   </CardContent>
                 </Card>
               </div>
