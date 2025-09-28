@@ -14,10 +14,90 @@ import {
 import { getCropAnalysis } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { CropAnalysisOutput } from '@/ai/flows/crop-analysis';
-import { Loader2, CalendarDays, Droplets, Mountain, DollarSign, TrendingUp } from 'lucide-react';
+import { Loader2, CalendarDays, Droplets, Mountain, DollarSign, TrendingUp, LucideProps } from 'lucide-react';
 import { findImage } from '@/lib/placeholder-images';
 import { useTranslation } from '@/hooks/use-translation';
 import { Badge } from '../ui/badge';
+
+type CropInfoItemProps = {
+  icon: React.ElementType<LucideProps>;
+  label: string;
+  value: string | undefined;
+}
+
+const CropInfoItem = ({ icon: Icon, label, value }: CropInfoItemProps) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center">
+      <Icon className="mr-2 h-4 w-4 text-primary" />
+      <div>
+        <p className="font-semibold">{t(label)}</p>
+        <p className="text-muted-foreground">{value ? t(value) : t('N/A')}</p>
+      </div>
+    </div>
+  );
+};
+
+type CropCardProps = {
+  crop: CropAnalysisOutput['crops'][0];
+}
+
+const CropCard = ({ crop }: CropCardProps) => {
+  const { t } = useTranslation();
+  const placeholderImage = findImage(crop.name);
+  const imageUrl = placeholderImage?.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
+
+  const getDemandBadgeVariant = (demand: string) => {
+    switch (demand?.toLowerCase()) {
+      case 'high':
+        return 'default';
+      case 'medium':
+        return 'secondary';
+      case 'low':
+        return 'outline';
+      default:
+        return 'secondary';
+    }
+  };
+
+  return (
+    <Card className="flex flex-col md:flex-row overflow-hidden">
+      <div className="md:w-1/3">
+        <Image
+          src={imageUrl}
+          alt={`Image of ${t(crop.name)}`}
+          width={600}
+          height={400}
+          className="rounded-t-lg md:rounded-l-lg md:rounded-t-none object-cover w-full h-full aspect-[3/2] md:aspect-auto"
+          data-ai-hint={crop.imageDescription}
+        />
+      </div>
+      <div className="md:w-2/3 flex flex-col">
+        <CardHeader>
+          <div className="flex justify-between items-start">
+            <CardTitle>{t(crop.name)}</CardTitle>
+            <Badge variant={getDemandBadgeVariant(crop.marketDemand)}>
+              <TrendingUp className="mr-1 h-3 w-3" />
+              {t(crop.marketDemand)} {t('Demand')}
+            </Badge>
+          </div>
+          <div className="flex items-center text-sm text-muted-foreground pt-1">
+            <CalendarDays className="mr-2 h-4 w-4" />
+            <span>{t(crop.productionMonths)}</span>
+          </div>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm flex-grow">
+          <CropInfoItem icon={Droplets} label="Water Needs" value={crop.waterNeeds} />
+          <CropInfoItem icon={Mountain} label="Soil" value={crop.soilPreference} />
+          <div className="col-span-2">
+            <CropInfoItem icon={DollarSign} label="Market Price" value={crop.marketPrice} />
+          </div>
+        </CardContent>
+      </div>
+    </Card>
+  );
+};
+
 
 export function CropAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,20 +130,6 @@ export function CropAnalysis() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
-  const getDemandBadgeVariant = (demand: string) => {
-    switch (demand?.toLowerCase()) {
-      case 'high':
-        return 'default';
-      case 'medium':
-        return 'secondary';
-      case 'low':
-        return 'outline';
-      default:
-        return 'secondary';
-    }
-  }
-
 
   return (
     <div className="space-y-8">
@@ -105,65 +171,9 @@ export function CropAnalysis() {
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-              {result.crops.map((crop, index) => {
-                const placeholderImage = findImage(crop.name);
-                const imageUrl =
-                  placeholderImage?.imageUrl ||
-                  `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
-                
-                return (
-                <Card key={index} className="flex flex-col md:flex-row overflow-hidden">
-                  <div className="md:w-1/3">
-                    <Image
-                      src={imageUrl}
-                      alt={`Image of ${t(crop.name)}`}
-                      width={600}
-                      height={400}
-                      className="rounded-t-lg md:rounded-l-lg md:rounded-t-none object-cover w-full h-full aspect-[3/2] md:aspect-auto"
-                      data-ai-hint={crop.imageDescription}
-                    />
-                  </div>
-                  <div className="md:w-2/3 flex flex-col">
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <CardTitle>{t(crop.name)}</CardTitle>
-                         <Badge variant={getDemandBadgeVariant(crop.marketDemand)}>
-                          <TrendingUp className="mr-1 h-3 w-3" />
-                          {t(crop.marketDemand)} {t('Demand')}
-                        </Badge>
-                      </div>
-                       <div className="flex items-center text-sm text-muted-foreground pt-1">
-                        <CalendarDays className="mr-2 h-4 w-4" />
-                        <span>{t(crop.productionMonths)}</span>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm flex-grow">
-                      <div className="flex items-center">
-                        <Droplets className="mr-2 h-4 w-4 text-primary" />
-                        <div>
-                          <p className="font-semibold">{t('Water Needs')}</p>
-                          <p className="text-muted-foreground">{t(crop.waterNeeds)}</p>
-                        </div>
-                      </div>
-                       <div className="flex items-center">
-                        <Mountain className="mr-2 h-4 w-4 text-primary" />
-                         <div>
-                          <p className="font-semibold">{t('Soil')}</p>
-                          <p className="text-muted-foreground">{t(crop.soilPreference)}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center col-span-2">
-                        <DollarSign className="mr-2 h-4 w-4 text-primary" />
-                        <div>
-                          <p className="font-semibold">{t('Market Price')}</p>
-                          <p className="text-muted-foreground">{crop.marketPrice || t('N/A')}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </div>
-                </Card>
-              );
-            })}
+              {result.crops.map((crop, index) => (
+                <CropCard key={index} crop={crop} />
+              ))}
             </div>
           </CardContent>
         </Card>
