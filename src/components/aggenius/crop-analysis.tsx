@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,57 @@ export function CropAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CropAnalysisOutput | null>(null);
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t, translateText, language } = useTranslation();
+
+  const [title, setTitle] = useState('Crop Production Analysis');
+  const [description, setDescription] = useState('Click the button to see a list of common crops, their production months, and market data.');
+  const [buttonText, setButtonText] = useState('Get Crop Analysis');
+  const [loadingText, setLoadingText] = useState('Fetching crop analysis...');
+  const [resultsTitle, setResultsTitle] = useState('Crop Data');
+  const [resultsDesc, setResultsDesc] = useState('A list of common crops with their production and market details.');
+  const [waterNeedsLabel, setWaterNeedsLabel] = useState('Water Needs');
+  const [soilLabel, setSoilLabel] = useState('Soil');
+  const [marketPriceLabel, setMarketPriceLabel] = useState('Market Price');
+  const [notAvailableLabel, setNotAvailableLabel] = useState('N/A');
+
+  useEffect(() => {
+    if (language !== 'en') {
+      Promise.all([
+        translateText('Crop Production Analysis'),
+        translateText('Click the button to see a list of common crops, their production months, and market data.'),
+        translateText('Get Crop Analysis'),
+        translateText('Fetching crop analysis...'),
+        translateText('Crop Data'),
+        translateText('A list of common crops with their production and market details.'),
+        translateText('Water Needs'),
+        translateText('Soil'),
+        translateText('Market Price'),
+        translateText('N/A'),
+      ]).then(([t1, t2, t3, t4, t5, t6, t7, t8, t9, t10]) => {
+        setTitle(t1);
+        setDescription(t2);
+        setButtonText(t3);
+        setLoadingText(t4);
+        setResultsTitle(t5);
+        setResultsDesc(t6);
+        setWaterNeedsLabel(t7);
+        setSoilLabel(t8);
+        setMarketPriceLabel(t9);
+        setNotAvailableLabel(t10);
+      });
+    } else {
+      setTitle('Crop Production Analysis');
+      setDescription('Click the button to see a list of common crops, their production months, and market data.');
+      setButtonText('Get Crop Analysis');
+      setLoadingText('Fetching crop analysis...');
+      setResultsTitle('Crop Data');
+      setResultsDesc('A list of common crops with their production and market details.');
+      setWaterNeedsLabel('Water Needs');
+      setSoilLabel('Soil');
+      setMarketPriceLabel('Market Price');
+      setNotAvailableLabel('N/A');
+    }
+  }, [language, translateText]);
 
   async function handleGetAnalysis() {
     setIsLoading(true);
@@ -47,9 +97,9 @@ export function CropAnalysis() {
     <div className="space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>{t('Crop Production Analysis')}</CardTitle>
+          <CardTitle>{title}</CardTitle>
           <CardDescription>
-            {t('Click the button to see a list of common crops, their production months, and market data.')}
+            {description}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -59,7 +109,7 @@ export function CropAnalysis() {
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {t('Get Crop Analysis')}
+            {buttonText}
           </Button>
         </CardContent>
       </Card>
@@ -68,7 +118,7 @@ export function CropAnalysis() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center space-y-4 min-h-[200px]">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">{t('Fetching crop analysis...')}</p>
+            <p className="text-muted-foreground">{loadingText}</p>
           </CardContent>
         </Card>
       )}
@@ -76,9 +126,9 @@ export function CropAnalysis() {
       {result && (
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader>
-            <CardTitle>{t('Crop Data')}</CardTitle>
+            <CardTitle>{resultsTitle}</CardTitle>
             <CardDescription>
-              {t('A list of common crops with their production and market details.')}
+              {resultsDesc}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
@@ -113,22 +163,22 @@ export function CropAnalysis() {
                       <div className="flex items-center">
                         <Droplets className="mr-2 h-4 w-4 text-primary" />
                         <div>
-                          <p className="font-semibold">{t('Water Needs')}</p>
+                          <p className="font-semibold">{waterNeedsLabel}</p>
                           <p className="text-muted-foreground">{t(crop.waterNeeds)}</p>
                         </div>
                       </div>
                        <div className="flex items-center">
                         <Mountain className="mr-2 h-4 w-4 text-primary" />
                          <div>
-                          <p className="font-semibold">{t('Soil')}</p>
+                          <p className="font-semibold">{soilLabel}</p>
                           <p className="text-muted-foreground">{t(crop.soilPreference)}</p>
                         </div>
                       </div>
                       <div className="flex items-center col-span-2">
                         <DollarSign className="mr-2 h-4 w-4 text-primary" />
                         <div>
-                          <p className="font-semibold">{t('Market Price')}</p>
-                          <p className="text-muted-foreground">{crop.marketPrice || t('N/A')}</p>
+                          <p className="font-semibold">{marketPriceLabel}</p>
+                          <p className="text-muted-foreground">{crop.marketPrice || notAvailableLabel}</p>
                         </div>
                       </div>
                     </CardContent>

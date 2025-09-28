@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useState, useEffect } from 'react';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +32,36 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
       moisture: 50,
     },
   });
-  const { t } = useTranslation();
+  const { t, translateText, language } = useTranslation();
+  const [title, setTitle] = useState('Soil Analysis');
+  const [description, setDescription] = useState("Enter your soil's pH and moisture levels to get personalized crop suggestions.");
+  const [phLabel, setPhLabel] = useState('Soil pH');
+  const [moistureLabel, setMoistureLabel] = useState('Moisture (%)');
+  const [buttonText, setButtonText] = useState('Get Suggestions');
+
+  useEffect(() => {
+    if (language !== 'en') {
+      Promise.all([
+        translateText('Soil Analysis'),
+        translateText("Enter your soil's pH and moisture levels to get personalized crop suggestions."),
+        translateText('Soil pH'),
+        translateText('Moisture (%)'),
+        translateText('Get Suggestions'),
+      ]).then(([t1, t2, t3, t4, t5]) => {
+        setTitle(t1);
+        setDescription(t2);
+        setPhLabel(t3);
+        setMoistureLabel(t4);
+        setButtonText(t5);
+      });
+    } else {
+      setTitle('Soil Analysis');
+      setDescription("Enter your soil's pH and moisture levels to get personalized crop suggestions.");
+      setPhLabel('Soil pH');
+      setMoistureLabel('Moisture (%)');
+      setButtonText('Get Suggestions');
+    }
+  }, [language, translateText]);
   
   const phValue = form.watch('ph');
   const moistureValue = form.watch('moisture');
@@ -39,8 +69,8 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('Soil Analysis')}</CardTitle>
-        <CardDescription>{t("Enter your soil's pH and moisture levels to get personalized crop suggestions.")}</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -51,7 +81,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel>{t('Soil pH')}</FormLabel>
+                    <FormLabel>{phLabel}</FormLabel>
                     <span className="text-sm font-medium text-primary">{phValue.toFixed(1)}</span>
                   </div>
                   <FormControl>
@@ -72,7 +102,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel>{t('Moisture (%)')}</FormLabel>
+                    <FormLabel>{moistureLabel}</FormLabel>
                      <span className="text-sm font-medium text-primary">{moistureValue}%</span>
                   </div>
                   <FormControl>
@@ -89,7 +119,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
             />
             <Button suppressHydrationWarning type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {t('Get Suggestions')}
+              {buttonText}
             </Button>
           </form>
         </Form>
