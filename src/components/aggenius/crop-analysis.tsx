@@ -87,7 +87,7 @@ export function CropAnalysis() {
                     <Image
                       src={`https://picsum.photos/seed/${crop.name
                         .toLowerCase()
-                        .replace(' ', '')}/600/400`}
+                        .replace(' ', '')}${Math.random()}/600/400`}
                       alt={`Image of ${crop.name}`}
                       width={600}
                       height={400}
