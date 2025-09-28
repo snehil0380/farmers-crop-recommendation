@@ -151,7 +151,7 @@ export function AudioRecorder() {
                         <p className="text-muted-foreground p-3 bg-muted/50 rounded-md">{transcript}</p>
                     </div>
                      <div className="space-y-2">
-                        <h3 className="font-semibold flex items-center text-sm"><Bot className="mr-2"/>{t('Translation')} ({currentLanguageLabel})</h3>
+                        <h3 className="font-semibold flex items-center text-sm"><Bot className="mr-2"/>{t('Translation')}</h3>
                         <p className="p-3 bg-primary/10 rounded-md">{translatedText || t('Translating...')}</p>
                     </div>
                   </div>
