@@ -85,7 +85,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button suppressHydrationWarning type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Get Suggestions
             </Button>
