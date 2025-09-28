@@ -41,16 +41,16 @@ const prompt = ai.definePrompt({
   - The crop type.
   - The primary benefit of planting this crop at this stage.
   - The general requirements (soil, water).
-  - A suitable icon name from the following list: ['Corn', 'Bean', 'Carrot', 'Wheat'].
+  - A suitable icon name from the allowed list: ['Corn', 'Bean', 'Carrot', 'Wheat'].
   - Two example crops.
 
   Also provide a summary of the overall benefits of crop rotation.
 
   The rotation order and their corresponding icons MUST be:
-  1. Corn (icon: 'Corn')
-  2. Legumes (icon: 'Bean')
-  3. Root Crops (icon: 'Carrot')
-  4. Cereals (icon: 'Wheat')
+  1. Corn (Use 'Corn' for the icon field)
+  2. Legumes (Use 'Bean' for the icon field)
+  3. Root Crops (Use 'Carrot' for the icon field)
+  4. Cereals (Use 'Wheat' for the icon field)
 
   Keep descriptions concise.
   `,
