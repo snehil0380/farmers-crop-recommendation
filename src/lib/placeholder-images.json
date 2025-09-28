@@ -16,7 +16,7 @@
       "id": "soyabeans",
       "description": "A field of soybean plants.",
       "imageUrl": "https://images.unsplash.com/photo-1551886363-2a8f8d227521?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3liZWFuJTIwZmllbGR8ZW58MHx8fHwxNzU5MDk3OTU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "Soybean field"
+      "imageHint": "Soyabean field"
     },
     {
       "id": "rice",
@@ -41,6 +41,24 @@
       "description": "A field of sorghum.",
       "imageUrl": "https://images.unsplash.com/photo-1704627647734-61e38adedc4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzb3JnaHVtfGVufDB8fHx8MTc1OTA0MjIyNHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "Sorghum crop"
+    },
+    {
+      "id": "sugarcane",
+      "description": "A field of tall sugarcane stalks.",
+      "imageUrl": "https://images.unsplash.com/photo-1620056372023-094119873f0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdWdhcmNhbmV8ZW58MHx8fHwxNzE5MjM0MjMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Sugarcane field"
+    },
+    {
+      "id": "chickpea",
+      "description": "A close-up of chickpea pods on a plant.",
+      "imageUrl": "https://images.unsplash.com/photo-1620923235619-a89c0a6b1e0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGlja3BlYXxlbnwwfHx8fDE3E5MjM0MjY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Chickpea plant"
+    },
+    {
+      "id": "lentil",
+      "description": "A field of lentil plants.",
+      "imageUrl": "https://images.unsplash.com/photo-1588921203264-9f7cf2250275?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZW50aWx8ZW58MHx8fHwxNzE5MjM0Mjg5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Lentil field"
     }
   ]
 }

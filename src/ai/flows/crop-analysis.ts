@@ -27,6 +27,7 @@ const CropAnalysisOutputSchema = z.object({
         soilPreference: z.string().describe('The preferred soil type for the crop.'),
         waterNeeds: z.string().describe('The water requirements for the crop.'),
         marketPrice: z.string().optional().describe('The current market price of the crop.'),
+        marketDemand: z.string().describe('The current market demand for the crop (e.g., High, Medium, Low).'),
       })
     )
     .describe('A list of crops with their production months and other data.'),
@@ -53,16 +54,17 @@ const prompt = ai.definePrompt({
   tools: [getMarketPriceTool],
   prompt: `You are an AI assistant that provides information about crops.
 
-  Provide a list of 5 common crops with the following details for each:
+  Provide a list of 7 common crops with the following details for each:
   - Name
   - Typical production months (e.g., "June - August" or "All Year")
   - A simple two-word description for a placeholder image
   - Soil preference
   - Water needs
+  - Current market demand (High, Medium, or Low)
   
   For each crop, use the getMarketPrice tool to fetch its market price.
 
-  Format the output as a JSON object. The 'crops' field should be an array of objects, each with 'name', 'productionMonths', 'imageDescription', 'soilPreference', 'waterNeeds', and 'marketPrice'.
+  Format the output as a JSON object. The 'crops' field should be an array of objects, each with 'name', 'productionMonths', 'imageDescription', 'soilPreference', 'waterNeeds', 'marketPrice', and 'marketDemand'.
   `,
 });
 

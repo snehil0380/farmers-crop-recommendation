@@ -9,6 +9,9 @@
     "tomatoes": "₹25 / kg",
     "lettuce": "₹50 / kg",
     "apples": "₹100 / kg",
-    "oranges": "₹60 / kg"
+    "oranges": "₹60 / kg",
+    "sugarcane": "₹3,500 / tonne",
+    "chickpea": "₹6,000 / quintal",
+    "lentil": "₹7,000 / quintal"
   }
 }
