@@ -36,7 +36,7 @@ export function useTranslation() {
       setTranslations(prev => ({...prev, ...translationsCache[language]}));
       return;
     }
-
+    
     try {
       const { data, error } = await getTranslationsBatch({ texts: textsNotInCache, targetLanguage: language });
       if (error || !data) {

@@ -32,7 +32,7 @@ const batchTranslationTool = ai.defineTool(
     name: 'translateTextsBatch',
     description: 'Translates a batch of texts to a target language.',
     inputSchema: TranslateTextsBatchInputSchema,
-    outputSchema: z.record(z.string()),
+    outputSchema: z.record(z.string(), z.string()),
   },
   async ({ texts, targetLanguage }) => {
     return await translateTextsBatchSvc(texts, targetLanguage);
@@ -48,11 +48,9 @@ const translateTextsBatchFlow = ai.defineFlow(
   async ({ texts, targetLanguage }) => {
     try {
       const translatedTexts = await batchTranslationTool({ texts, targetLanguage });
-      // This was the missing piece. We need to return the result in the expected format.
       return { translatedTexts };
     } catch (e) {
       console.error("Error in translateTextsBatchFlow:", e);
-      // Re-throw the error to be caught by the server action
       throw e;
     }
   }
