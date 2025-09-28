@@ -2,6 +2,7 @@
 
 import { suggestCrops, SuggestCropsInput, SuggestCropsOutput } from "@/ai/flows/ai-crop-suggestions";
 import { imageBasedDiseaseDetection, ImageBasedDiseaseDetectionInput, ImageBasedDiseaseDetectionOutput } from "@/ai/flows/image-based-disease-detection";
+import { getCropAnalysis as getCropAnalysisFlow, CropAnalysisOutput } from "@/ai/flows/crop-analysis";
 import { z } from "zod";
 
 const cropSuggestionSchema = z.object({
@@ -42,5 +43,16 @@ export async function getDiseaseDiagnosis(data: { photoDataUri: string }): Promi
   } catch (e) {
     console.error(e);
     return { data: null, error: "Failed to analyze image. Please try again." };
+  }
+}
+
+
+export async function getCropAnalysis(): Promise<{data: CropAnalysisOutput | null; error: string | null}> {
+  try {
+    const result = await getCropAnalysisFlow();
+    return { data: result, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: "Failed to get crop analysis. Please try again." };
   }
 }
