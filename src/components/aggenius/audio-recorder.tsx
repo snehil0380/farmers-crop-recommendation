@@ -106,7 +106,7 @@ export function AudioRecorder() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" suppressHydrationWarning>
           <Mic className="h-6 w-6" />
           <span className="sr-only">{t('Voice Translation')}</span>
         </Button>
