@@ -11,6 +11,24 @@
       "description": "Close-up of a ripe corn cob with golden kernels.",
       "imageUrl": "https://images.unsplash.com/photo-1704641915285-92a4b45ca7ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb3JuJTIwaW1hZ2VzfGVufDB8fHx8MTc1OTAzOTQzMnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "Golden corn"
+    },
+    {
+      "id": "soybeans",
+      "description": "A field of soybean plants.",
+      "imageUrl": "https://images.unsplash.com/photo-1551886363-2a8f8d227521?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3liZWFuJTIwZmllbGR8ZW58MHx8fHwxNzU5MDk3OTU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Soybean field"
+    },
+    {
+      "id": "rice",
+      "description": "A lush green rice paddy field.",
+      "imageUrl": "https://images.unsplash.com/photo-1536364024344-482455933475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyaWNlJTIwcGFkZHl8ZW58MHx8fHwxNzU5MDk4MDA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Rice paddy"
+    },
+    {
+      "id": "potatoes",
+      "description": "Freshly harvested potatoes.",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba657?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3RhdG9lc3xlbnwwfHx8fDE3NTkwOTgwMzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Harvested potatoes"
     }
   ]
 }

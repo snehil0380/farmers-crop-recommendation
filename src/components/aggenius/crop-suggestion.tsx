@@ -94,9 +94,7 @@ export function CropSuggestion() {
                   const placeholderImage = findImage(crop.name);
                   const imageUrl =
                     placeholderImage?.imageUrl ||
-                    `https://picsum.photos/seed/${crop.name
-                      .toLowerCase()
-                      .replace(' ', '')}/600/400`;
+                    `https://picsum.photos/seed/${encodeURIComponent(crop.name)}/600/400`;
                   return (
                     <Card key={index} className={crop.name === result.bestCrop ? 'border-primary shadow-lg' : ''}>
                       <CardHeader>
