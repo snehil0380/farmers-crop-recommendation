@@ -44,7 +44,7 @@ export function SoilAnalysis({ onSubmit, isLoading }: SoilAnalysisProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('Crop recommendation')}</CardTitle>
+        <CardTitle>{t('Soil Analysis')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

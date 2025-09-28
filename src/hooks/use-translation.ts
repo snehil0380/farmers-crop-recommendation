@@ -9,28 +9,30 @@ const translationsCache: Record<string, Record<string, string>> = {};
 export function useTranslation() {
   const { language } = useLanguage();
   const [translations, setTranslations] = useState<Record<string, string>>(
-    translationsCache[language] || {}
+    () => translationsCache[language] || {}
   );
-  const translationQueue = useRef<string[]>([]);
+  
+  const textsToTranslate = useRef<Set<string>>(new Set());
   const translationTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const processTranslationQueue = useCallback(async () => {
-    if (translationQueue.current.length === 0) {
+    if (textsToTranslate.current.size === 0) {
       return;
     }
 
-    const textsToTranslate = [...new Set(translationQueue.current)];
-    translationQueue.current = [];
-
+    const texts = Array.from(textsToTranslate.current);
+    textsToTranslate.current.clear();
+    
     if (language === 'en') {
       return;
     }
 
-    const textsNotInCache = textsToTranslate.filter(
+    const textsNotInCache = texts.filter(
       (text) => !(translationsCache[language] && translationsCache[language][text])
     );
-
+    
     if (textsNotInCache.length === 0) {
+      // All translations are already in cache, just update the state if needed
       setTranslations(prev => ({...prev, ...translationsCache[language]}));
       return;
     }
@@ -39,6 +41,8 @@ export function useTranslation() {
       const { data, error } = await getTranslationsBatch({ texts: textsNotInCache, targetLanguage: language });
       if (error || !data) {
         console.error('Batch translation error:', error);
+        // Add untranslated texts back to the queue for a potential retry
+        textsNotInCache.forEach(text => textsToTranslate.current.add(text));
         return;
       }
 
@@ -52,6 +56,7 @@ export function useTranslation() {
       setTranslations(prev => ({ ...prev, ...newTranslations }));
     } catch (e) {
       console.error('Batch translation failed:', e);
+      textsNotInCache.forEach(text => textsToTranslate.current.add(text));
     }
   }, [language]);
 
@@ -62,17 +67,21 @@ export function useTranslation() {
       if (language === 'en') {
         return text;
       }
-      const translated = translations[text] || (translationsCache[language] && translationsCache[language][text]);
-
-      if (!translated && !translationQueue.current.includes(text)) {
-        translationQueue.current.push(text);
-        if (translationTimeout.current) {
-          clearTimeout(translationTimeout.current);
-        }
-        translationTimeout.current = setTimeout(processTranslationQueue, 50);
-      }
       
-      return translated || text;
+      const cachedTranslation = translations[text] || (translationsCache[language] && translationsCache[language][text]);
+      
+      if (cachedTranslation) {
+        return cachedTranslation;
+      }
+
+      textsToTranslate.current.add(text);
+
+      if (translationTimeout.current) {
+        clearTimeout(translationTimeout.current);
+      }
+      translationTimeout.current = setTimeout(processTranslationQueue, 50);
+      
+      return text; // Return original text until translation is available
     },
     [language, translations, processTranslationQueue]
   );
@@ -111,12 +120,9 @@ export function useTranslation() {
   );
 
   useEffect(() => {
-    // When language changes, clear the queue and trigger a re-translation of existing texts if needed
-    translationQueue.current = [];
-    if (translationTimeout.current) {
-      clearTimeout(translationTimeout.current);
-    }
+    // When language changes, update the translations from cache
     setTranslations(translationsCache[language] || {});
+    // Any outstanding texts will be re-queued and translated to the new language on next render
   }, [language]);
 
 

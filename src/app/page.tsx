@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import { Header } from "@/components/aggenius/header";
 import { CropSuggestion } from "@/components/aggenius/crop-suggestion";
 import { DiseaseDetection } from "@/components/aggenius/disease-detection";

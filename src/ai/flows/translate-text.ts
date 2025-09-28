@@ -31,13 +31,16 @@ const prompt = ai.definePrompt({
   name: 'translateTextPrompt',
   input: {schema: TranslateTextInputSchema},
   output: {schema: TranslateTextOutputSchema},
-  prompt: `You are an expert translator. Translate the following text from English to {{targetLanguage}}.
+  prompt: `You are an expert translator. Translate the following text to {{targetLanguage}}.
   
 Text: """{{text}}"""
 
 Respond only with the translated text in a JSON object with a single key "translatedText".
 If the input text is a short UI label, provide a concise and contextually appropriate translation.
-For example, if translating "Get Suggestions" to Hindi, the output should be "सुझाव प्राप्त करें".
+For example, if translating "Get Suggestions" to Hindi, the output must be:
+{
+  "translatedText": "सुझाव प्राप्त करें"
+}
 `,
   model: 'gemini-2.5-flash',
 });
